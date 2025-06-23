@@ -3,54 +3,126 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Book a Service</title>
+  <title>Book a Mechanic</title>
   <link rel="stylesheet" href="../styles.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
 </head>
 <body>
   <div id="siteHeader"></div>
-
-  <div class="container">
-    <h1>Book a Service</h1>
+  <main class="container">
+    <h1>Book a Mobile Mechanic</h1>
     <form id="bookingForm">
-      <label for="serviceType">Service Type</label>
-      <select id="serviceType" required>
-        <option value="">-- Select a Service --</option>
-        <option value="Jump Start">Jump Start</option>
-        <option value="Battery Replacement">Battery Replacement</option>
-        <option value="Brake Inspection">Brake Inspection</option>
-        <option value="Diagnostic Check">Diagnostic Check</option>
+      <label for="service">Select Service</label>
+      <select id="service" name="service" required>
+        <option value="">-- Choose a Service --</option>
+        <option value="battery">Battery Replacement</option>
+        <option value="jumpstart">Jump Start</option>
+        <option value="brakes">Brakes Repair</option>
+        <option value="diagnostics">Diagnostics</option>
+        <option value="oilchange">Oil Change</option>
       </select>
 
-      <label>Preferred Time</label>
-      <div id="calendar"></div>
-      <input type="hidden" id="time" name="time" required />
+      <label for="date">Select Date</label>
+      <input id="date" name="date" required />
 
-      <label for="address">Address</label>
-      <input type="text" id="address" placeholder="Auto-locating..." />
+      <label for="time">Select Time</label>
+      <input id="time" name="time" required />
 
-      <label for="description">Job Description</label>
-      <textarea id="description" rows="4" placeholder="Describe the issue..." required></textarea>
+      <label for="address">Your Address</label>
+      <textarea id="address" name="address" rows="2" placeholder="Enter your address manually" required></textarea>
 
-      <button type="submit" class="btn btn-primary">Submit Booking</button>
+      <button type="button" id="useGpsBtn" class="btn btn-secondary" style="background-color:#FFC324; color:#FF6700; margin-bottom:1rem;">Use My GPS</button>
+      <button type="submit" class="btn btn-primary">Book Now</button>
     </form>
-
-    <div id="confirmation" class="confirmation hidden">✅ Booking submitted!</div>
-  </div>
+    <div id="confirmation" class="confirmation hidden"></div>
+  </main>
 
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-  <script src="script.js"></script>
-
   <script>
-    // ✅ Correct relative path for subfolder
     fetch('../shared/header.html')
       .then(res => res.text())
       .then(data => {
         document.getElementById('siteHeader').innerHTML = data;
-        document.getElementById('navToggle').addEventListener('click', () => {
-          document.getElementById('navMenu').classList.toggle('show');
-        });
+        setTimeout(() => {
+          const toggle = document.getElementById('navToggle');
+          const menu = document.getElementById('navMenu');
+          if (toggle && menu) {
+            toggle.addEventListener('click', () => {
+              menu.classList.toggle('show');
+            });
+          }
+        }, 0);
       });
+
+    // Initialize date and time pickers
+    flatpickr("#date", {
+      altInput: true,
+      altFormat: "F j, Y",
+      dateFormat: "Y-m-d",
+      minDate: "today",
+    });
+    flatpickr("#time", {
+      enableTime: true,
+      noCalendar: true,
+      dateFormat: "H:i",
+      time_24hr: true,
+      minTime: "08:00",
+      maxTime: "18:00"
+    });
+
+    const useGpsBtn = document.getElementById("useGpsBtn");
+    const addressField = document.getElementById("address");
+
+    useGpsBtn.addEventListener("click", () => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+            fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`)
+              .then(response => response.json())
+              .then(data => {
+                if(data.address) {
+                  let addr = "";
+                  if(data.address.road) addr += data.address.road + ", ";
+                  if(data.address.city) addr += data.address.city + ", ";
+                  if(data.address.state) addr += data.address.state + ", ";
+                  if(data.address.postcode) addr += data.address.postcode + ", ";
+                  if(data.address.country) addr += data.address.country;
+                  addressField.value = addr;
+                } else {
+                  addressField.value = "Unable to determine address from GPS";
+                }
+              })
+              .catch(() => {
+                addressField.value = "Error retrieving address from GPS";
+              });
+          },
+          () => {
+            addressField.value = "GPS permission denied or unavailable";
+          }
+        );
+      } else {
+        addressField.value = "Geolocation not supported by your browser";
+      }
+    });
+
+    // Form submission handler (demo only)
+    document.getElementById("bookingForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const service = formData.get("service");
+      const date = formData.get("date");
+      const time = formData.get("time");
+      const address = formData.get("address");
+      if (!service || !date || !time || !address) {
+        alert("Please fill in all fields");
+        return;
+      }
+      document.getElementById("confirmation").classList.remove("hidden");
+      document.getElementById("confirmation").textContent = `Thank you! Your ${service} booking for ${date} at ${time} has been received.`;
+      e.target.reset();
+    });
   </script>
 </body>
 </html>
