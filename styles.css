@@ -1,0 +1,163 @@
+/* Reset and base */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background-color: #fff;
+  color: #222;
+  line-height: 1.5;
+  padding: 1rem;
+}
+
+/* Color palette */
+:root {
+  --hi-vis-orange: #FF6700;
+  --mango-yellow: #FFC324;
+  --neon-green: #39FF14;
+  --alert-red: #FF3B3B;
+  --dark-text: #222222;
+  --white: #ffffff;
+}
+
+/* Headings */
+h1, h2, h3 {
+  color: var(--dark-text);
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+/* Links */
+a {
+  color: var(--hi-vis-orange);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+/* Buttons */
+.btn {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+  user-select: none;
+  text-align: center;
+}
+
+.btn-primary {
+  background-color: var(--hi-vis-orange);
+  color: var(--white);
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: #e65a00;
+}
+
+.btn-secondary {
+  background-color: var(--mango-yellow);
+  color: var(--dark-text);
+  border: none;
+}
+
+.btn-secondary:hover {
+  background-color: #e0b519;
+}
+
+/* Forms */
+input[type="text"],
+input[type="datetime-local"],
+select,
+textarea {
+  width: 100%;
+  padding: 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-family: inherit;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="datetime-local"]:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--hi-vis-orange);
+}
+
+/* Checkbox label with hi-vis style */
+.gps-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.gps-label {
+  background-color: var(--hi-vis-orange);
+  color: var(--mango-yellow);
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.3s ease;
+}
+
+.gps-label:hover {
+  background-color: #e65a00;
+}
+
+/* Containers */
+.container {
+  max-width: 500px;
+  margin: auto;
+  background: white;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* Confirmation message */
+.confirmation {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: #dff0d8;
+  color: #3c763d;
+  border-radius: 5px;
+  text-align: center;
+}
+
+/* Utility classes */
+.hidden {
+  display: none;
+}
+
+.text-center {
+  text-align: center;
+}
+
+/* Homepage specific */
+.highlight-text {
+  color: var(--mango-yellow);
+  font-weight: 900;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 3rem;
+}
