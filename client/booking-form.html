@@ -22,8 +22,10 @@
       <label for="time">Preferred Time</label>
       <input type="datetime-local" id="time" required />
 
-      <label for="locationToggle">Use My GPS</label>
-      <input type="checkbox" id="locationToggle" />
+      <div class="gps-container">
+        <input type="checkbox" id="locationToggle" />
+        <label for="locationToggle" class="gps-label">Use My GPS</label>
+      </div>
 
       <label for="address">Address</label>
       <input type="text" id="address" placeholder="Enter address manually" />
