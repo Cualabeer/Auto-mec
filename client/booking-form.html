@@ -43,7 +43,7 @@
 
   <script>
     // Load shared header
-    fetch('/shared/header.html')
+    fetch('../shared/header.html')
       .then(res => res.text())
       .then(data => {
         document.getElementById('siteHeader').innerHTML = data;
