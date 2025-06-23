@@ -253,30 +253,13 @@ a:hover {
 
 /* Label styles */
 form label {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
   display: block;
-  margin: 1rem 0 0.3rem;
-  font-weight: bold;
+  color: var(--dark-text);
 }
 
-/* Input, select, textarea styling */
-form input,
-form select,
-form textarea {
-  width: 100%;
-  padding: 0.75rem;
-  font-size: 1rem;
-  border: 2px solid #ccc;
-  border-radius: 5px;
-  box-sizing: border-box;
-  font-family: inherit;
-}
-
-/* Allow vertical resize for textarea only */
-form textarea {
-  resize: vertical;
-}
-
-/* Confirmation message box */
+/* Confirmation box styling */
 #confirmation {
   margin-top: 1rem;
   padding: 1rem;
@@ -284,6 +267,7 @@ form textarea {
   color: #000;
   font-weight: bold;
   border-radius: 5px;
+  width: 100%;
 }
 
 /* Hide elements */
@@ -316,4 +300,62 @@ form textarea {
 
 .admin-card:hover {
   box-shadow: 0 6px 12px rgba(255, 103, 0, 0.4);
+}
+
+/* ========== MOBILE-ONLY BOOKING FORM FULL WIDTH FIELDS ========== */
+@media (max-width: 768px) {
+  form input,
+  form select,
+  form textarea,
+  form button {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 1.2rem 1rem;
+    font-size: 1.1rem;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    margin-bottom: 1.2rem;
+    font-family: inherit;
+    transition: border-color 0.3s ease;
+  }
+
+  form textarea {
+    resize: vertical;
+    min-height: 80px;
+  }
+
+  form button.btn-primary {
+    background-color: var(--hi-vis-orange);
+    color: white;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  form button.btn-primary:hover {
+    background-color: #e95f00;
+  }
+
+  form button.btn-secondary {
+    background-color: var(--mango-yellow);
+    color: var(--hi-vis-orange);
+    border: none;
+    cursor: pointer;
+    margin-bottom: 1rem;
+  }
+
+  form button.btn-secondary:hover {
+    background-color: #f8b500;
+  }
+
+  #confirmation {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: var(--neon-green);
+    color: #000;
+    font-weight: bold;
+    border-radius: 5px;
+    width: 100%;
+  }
 }
