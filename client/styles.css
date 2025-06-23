@@ -1,92 +1,90 @@
-* {
-  box-sizing: border-box;
-  font-family: Arial, sans-serif;
-}
-body {
-  margin: 0;
-  padding: 1rem;
-  background-color: #f9f9f9;
-}
-.booking-container {
-  max-width: 500px;
-  margin: auto;
-  background: white;
-  padding: 1.5rem;
-  border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
-h1 {
-  font-size: 1.5rem;
-  color: #0077cc;
-  margin-bottom: 1rem;
-}
-form label {
-  display: block;
-  margin-top: 1rem;
-  margin-bottom: 0.3rem;
-  font-weight: bold;
-}
-form input[type="text"],
-form input[type="datetime-local"],
-form select,
-form textarea {
-  width: 100%;
-  padding: 0.6rem;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-button {
-  margin-top: 1.5rem;
-  padding: 0.75rem;
-  width: 100%;
-  background: #0077cc;
-  color: white;
-  font-size: 1rem;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-button:hover {
-  background: #005fa3;
-}
-#confirmation {
-  margin-top: 1rem;
-  padding: 1rem;
-  background: #dff0d8;
-  color: #3c763d;
-  border-radius: 5px;
-  text-align: center;
-}
-.hidden {
-  display: none;
-}
-
-/* NEW: Mango yellow text on orange hi-vis background for GPS label */
-
-.gps-container {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-top: 1rem;
-}
-
-.gps-label {
-  background-color: #FF6700; /* orange hi-vis */
-  color: #FFC324;            /* mango yellow */
-  padding: 0.3rem 0.6rem;
-  border-radius: 4px;
-  font-weight: bold;
-  cursor: pointer;
-  user-select: none;
-  transition: background-color 0.3s ease;
-}
-
-.gps-label:hover {
-  background-color: #e65a00; /* slightly darker orange on hover */
+/* ===============================
+   Hi-Vis Colour Scheme
+================================= */
+:root {
+  --hi-vis-orange: #FF6700;
+  --mango-yellow: #FFC324;
+  --neon-green: #39FF14;
+  --alert-red: #FF3B3B;
+  --dark-text: #222222;
+  --white: #FFFFFF;
+  --light-gray: #F5F5F5;
 }
 
 /* ===============================
-   Header Navigation (site-wide)
+   Reset & Base Styles
+================================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  background-color: var(--white);
+  color: var(--dark-text);
+}
+
+a {
+  color: var(--hi-vis-orange);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* ===============================
+   Container
+================================= */
+.container {
+  padding: 1.5rem;
+  margin-top: 4.5rem; /* for sticky header */
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ===============================
+   Buttons
+================================= */
+.btn {
+  display: inline-block;
+  text-align: center;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.btn-primary {
+  background-color: var(--hi-vis-orange);
+  color: var(--white);
+  padding: 1rem;
+  font-size: 1.1rem;
+  width: 100%;
+}
+
+.btn-primary:hover {
+  background-color: #e95f00;
+}
+
+.btn-secondary {
+  background-color: var(--mango-yellow);
+  color: var(--dark-text);
+  padding: 0.8rem 1rem;
+}
+
+.btn-secondary:hover {
+  background-color: #f8b500;
+}
+
+/* ===============================
+   Header Navigation
 ================================= */
 .navbar {
   background-color: var(--hi-vis-orange);
@@ -149,5 +147,175 @@ button:hover {
 
   .nav-menu.show {
     display: flex;
+  }
+}
+
+/* ===============================
+   Homepage Sections
+================================= */
+.hero {
+  background-color: var(--mango-yellow);
+  padding: 2rem 1rem;
+  text-align: center;
+  border-radius: 10px;
+  margin-bottom: 2rem;
+}
+
+.hero h1 {
+  font-size: 2rem;
+  color: var(--dark-text);
+  margin-bottom: 0.5rem;
+}
+
+.hero p {
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.8rem;
+  margin-bottom: 2rem;
+}
+
+.badge {
+  background: var(--hi-vis-orange);
+  color: white;
+  padding: 0.6rem 1rem;
+  border-radius: 999px;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.trust h2 {
+  margin-bottom: 1rem;
+}
+
+.trust ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.trust ul li {
+  margin-bottom: 0.8rem;
+  padding-left: 1.2rem;
+  position: relative;
+}
+
+.trust ul li::before {
+  content: "✔";
+  color: var(--hi-vis-orange);
+  position: absolute;
+  left: 0;
+}
+
+.cta {
+  background: var(--light-gray);
+  padding: 2rem 1rem;
+  text-align: center;
+  border-radius: 10px;
+  margin-top: 2rem;
+}
+
+.cta h2 {
+  margin-bottom: 1rem;
+}
+
+.cta .small {
+  font-size: 0.9rem;
+  margin-top: 1rem;
+}
+
+/* ===============================
+   Booking Form Styles
+================================= */
+form label {
+  display: block;
+  margin: 1rem 0 0.3rem;
+  font-weight: bold;
+}
+
+form input,
+form select,
+form textarea {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+form textarea {
+  resize: vertical;
+}
+
+#calendar {
+  margin-bottom: 1rem;
+}
+
+.flatpickr-calendar.inline {
+  width: 100% !important;
+}
+
+/* Booking confirmation */
+.confirmation {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: var(--neon-green);
+  color: #000;
+  font-weight: bold;
+  border-radius: 5px;
+}
+
+.hidden {
+  display: none;
+}
+
+/* ===============================
+   Admin Dashboard
+================================= */
+.dashboard-cards {
+  display: grid;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.card {
+  background: var(--light-gray);
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.card h2 {
+  margin-bottom: 0.5rem;
+  font-size: 1.2rem;
+}
+
+.card p {
+  margin-bottom: 1rem;
+}
+
+/* ===============================
+   Utility / Misc
+================================= */
+.highlight-text {
+  color: var(--hi-vis-orange);
+}
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+@media (min-width: 600px) {
+  .buttons {
+    flex-direction: row;
   }
 }
