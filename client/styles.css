@@ -35,9 +35,6 @@ form textarea {
   border: 1px solid #ccc;
   border-radius: 5px;
 }
-form input[type="checkbox"] {
-  margin-right: 0.5rem;
-}
 button {
   margin-top: 1.5rem;
   padding: 0.75rem;
@@ -62,4 +59,28 @@ button:hover {
 }
 .hidden {
   display: none;
+}
+
+/* NEW: Mango yellow text on orange hi-vis background for GPS label */
+
+.gps-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.gps-label {
+  background-color: #FF6700; /* orange hi-vis */
+  color: #FFC324;            /* mango yellow */
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.3s ease;
+}
+
+.gps-label:hover {
+  background-color: #e65a00; /* slightly darker orange on hover */
 }
