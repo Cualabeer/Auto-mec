@@ -4,10 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Book a Service</title>
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="/styles.css" />
 </head>
 <body>
-  <div class="booking-container">
+  <div class="container">
     <h1>Book a Service</h1>
     <form id="bookingForm">
       <label for="serviceType">Service Type</label>
@@ -33,10 +33,10 @@
       <label for="description">Job Description</label>
       <textarea id="description" rows="4" placeholder="Describe the issue..." required></textarea>
 
-      <button type="submit">Submit Booking</button>
+      <button type="submit" class="btn btn-primary">Submit Booking</button>
     </form>
 
-    <div id="confirmation" class="hidden">✅ Booking submitted!</div>
+    <div id="confirmation" class="confirmation hidden">✅ Booking submitted!</div>
   </div>
 
   <script src="script.js"></script>
