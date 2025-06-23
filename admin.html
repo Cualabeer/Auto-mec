@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin Dashboard - Auto-Mec</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="siteHeader"></div>
+
+  <main class="container">
+    <h1>Admin Dashboard</h1>
+
+    <section class="dashboard-cards">
+      <div class="card">
+        <h2>Bookings</h2>
+        <p>View and manage all active service bookings.</p>
+        <a href="#" class="btn btn-secondary">Manage Bookings</a>
+      </div>
+
+      <div class="card">
+        <h2>Mechanics</h2>
+        <p>Assign or update users for each job.</p>
+        <a href="#" class="btn btn-secondary">Manage Users</a>
+      </div>
+
+      <div class="card">
+        <h2>Inventory</h2>
+        <p>Track parts and tools stock levels.</p>
+        <a href="#" class="btn btn-secondary">Inventory Tools</a>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // Load shared header
+    fetch('/shared/header.html')
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById('siteHeader').innerHTML = data;
+        document.getElementById('navToggle').addEventListener('click', () => {
+          document.getElementById('navMenu').classList.toggle('show');
+        });
+      });
+  </script>
+</body>
+</html>
