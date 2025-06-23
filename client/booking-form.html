@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Book a Service</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="booking-container">
+    <h1>Book a Service</h1>
+    <form id="bookingForm">
+      <label for="serviceType">Service Type</label>
+      <select id="serviceType" required>
+        <option value="">-- Select a Service --</option>
+        <option value="Jump Start">Jump Start</option>
+        <option value="Battery Replacement">Battery Replacement</option>
+        <option value="Brake Inspection">Brake Inspection</option>
+        <option value="Diagnostic Check">Diagnostic Check</option>
+      </select>
+
+      <label for="time">Preferred Time</label>
+      <input type="datetime-local" id="time" required />
+
+      <label for="locationToggle">Use My GPS</label>
+      <input type="checkbox" id="locationToggle" />
+
+      <label for="address">Address</label>
+      <input type="text" id="address" placeholder="Enter address manually" />
+
+      <label for="description">Job Description</label>
+      <textarea id="description" rows="4" placeholder="Describe the issue..." required></textarea>
+
+      <button type="submit">Submit Booking</button>
+    </form>
+
+    <div id="confirmation" class="hidden">✅ Booking submitted!</div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
