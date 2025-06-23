@@ -1,235 +1,372 @@
-// booking-form.js
-
-// Hamburger menu toggle
-const navToggle = document.getElementById('navToggle');
-const navMenu = document.getElementById('navMenu');
-navToggle.addEventListener('click', () => {
-  const expanded = navToggle.getAttribute('aria-expanded') === 'true' || false;
-  navToggle.setAttribute('aria-expanded', !expanded);
-  if (navMenu.classList.contains('show')) {
-    navMenu.classList.remove('show');
-    navMenu.setAttribute('aria-hidden', 'true');
-  } else {
-    navMenu.classList.add('show');
-    navMenu.setAttribute('aria-hidden', 'false');
-  }
-});
-
-// Booking form DOM elements
-const gpsBtn = document.getElementById('gpsBtn');
-const addressInput = document.getElementById('address');
-const extraDetailInput = document.getElementById('extraDetail');
-const bookingForm = document.getElementById('bookingForm');
-const confirmationModal = document.getElementById('confirmationModal');
-const confirmationText = document.getElementById('confirmationText');
-const closeModalBtn = document.getElementById('closeModal');
-
-// Info modal elements
-const infoBtn = document.getElementById('infoBtn');
-const gpsInfoModal = document.getElementById('gpsInfoModal');
-const closeGpsInfo = document.getElementById('closeGpsInfo');
-
-// Disable form inputs except GPS and info buttons initially
-const formFields = bookingForm.querySelectorAll(
-  'select, input:not(#address):not(#extraDetail):not(#gpsBtn):not(#infoBtn), textarea, button[type="submit"]'
-);
-formFields.forEach(el => el.disabled = true);
-addressInput.disabled = true;
-extraDetailInput.disabled = true;
-
-// GPS button click - get location
-gpsBtn.addEventListener('click', () => {
-  if (!navigator.geolocation) {
-    alert('Geolocation is not supported by your browser.');
-    return;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Auto-mec Booking Form with Quick Book</title>
+<style>
+  /* === Color Variables === */
+  :root {
+    --hi-vis-orange: #ff7300;
+    --hi-vis-yellow: #ffec3d;
+    --white: #ffffff;
+    --black: #000000;
+    --gray-light: #f2f2f2;
+    --gray-dark: #333333;
+    --error-red: #c62828;
   }
 
-  gpsBtn.textContent = 'Locating...';
-  gpsBtn.disabled = true;
+  /* === Global base styles === */
+  body {
+    font-family: Arial, sans-serif;
+    background: var(--white);
+    margin: 0;
+    padding: 1rem;
+    color: var(--gray-dark);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
 
-  navigator.geolocation.getCurrentPosition(
-    (position) => {
-      const { latitude, longitude } = position.coords;
+  .container {
+    max-width: 480px;
+    margin: 0 auto;
+  }
 
-      // Reverse geocode OpenStreetMap Nominatim API
-      fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`)
-        .then(response => response.json())
-        .then(data => {
-          let road = data.address?.road || data.address?.pedestrian || '';
-          let postcode = data.address?.postcode || '';
-          let displayAddress = road ? `${road}, ${postcode}` : data.display_name || '';
+  /* === Header with hamburger menu === */
+  header {
+    background: var(--hi-vis-orange);
+    color: var(--white);
+    padding: 1rem;
+    position: sticky;
+    top: 0;
+    z-index: 10000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 
-          addressInput.value = displayAddress;
-          addressInput.disabled = false;
-          extraDetailInput.disabled = false;
-          formFields.forEach(el => el.disabled = false);
+  header h1 {
+    margin: 0;
+    font-size: 1.5rem;
+  }
 
-          gpsBtn.textContent = 'Use My GPS';
-          gpsBtn.disabled = false;
-        })
-        .catch(() => {
-          alert('Unable to retrieve your address from GPS coordinates.');
-          gpsBtn.textContent = 'Use My GPS';
-          gpsBtn.disabled = false;
-        });
-    },
-    () => {
-      alert('Failed to get your location. Please allow location access to continue.');
-      gpsBtn.textContent = 'Use My GPS';
-      gpsBtn.disabled = false;
+  #navToggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 22px;
+    width: 28px;
+    padding: 0;
+  }
+
+  #navToggle span {
+    display: block;
+    height: 4px;
+    background: var(--white);
+    border-radius: 2px;
+  }
+
+  nav#navMenu {
+    position: absolute;
+    top: 56px;
+    right: 1rem;
+    background: var(--hi-vis-orange);
+    border-radius: 6px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    display: none;
+    flex-direction: column;
+    min-width: 150px;
+    z-index: 10001;
+  }
+
+  nav#navMenu.show {
+    display: flex;
+  }
+
+  nav#navMenu a {
+    color: var(--white);
+    padding: 0.75rem 1rem;
+    text-decoration: none;
+    font-weight: bold;
+    border-bottom: 1px solid rgba(255,255,255,0.3);
+  }
+
+  nav#navMenu a:last-child {
+    border-bottom: none;
+  }
+
+  nav#navMenu a:hover {
+    background: var(--hi-vis-yellow);
+    color: var(--black);
+  }
+
+  /* === Buttons === */
+  .btn {
+    display: block;
+    width: 100%;
+    padding: 20px;
+    margin: 1rem 0;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s ease;
+  }
+
+  .btn-primary {
+    background-color: var(--hi-vis-orange);
+    color: var(--white);
+    font-weight: bold;
+  }
+
+  .btn-secondary {
+    background-color: var(--hi-vis-yellow);
+    color: var(--black);
+    font-weight: bold;
+    border: 2px solid var(--hi-vis-orange);
+  }
+
+  .btn-primary:hover {
+    background-color: #e65f00;
+  }
+
+  .btn-secondary:hover {
+    background-color: #fff55c;
+  }
+
+  /* === Form Inputs and Selects === */
+  input[type="text"],
+  input[type="date"],
+  input[type="time"],
+  select,
+  textarea {
+    width: 100%;
+    padding: 20px;
+    margin-top: 0.3rem;
+    margin-bottom: 1rem;
+    border: 2px solid var(--hi-vis-orange);
+    border-radius: 6px;
+    font-size: 1rem;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+    resize: vertical;
+  }
+
+  input[type="text"]:focus,
+  input[type="date"]:focus,
+  input[type="time"]:focus,
+  select:focus,
+  textarea:focus {
+    border-color: var(--hi-vis-yellow);
+    outline: none;
+  }
+
+  label {
+    font-weight: bold;
+    display: block;
+    margin-top: 1rem;
+  }
+
+  /* === Info Button === */
+  #infoBtn {
+    background-color: var(--hi-vis-orange);
+    color: var(--white);
+    border: none;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    font-size: 1.2rem;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0;
+    margin: 0.5rem 0 1rem 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+    transition: background-color 0.3s ease;
+  }
+
+  #infoBtn:hover,
+  #infoBtn:focus {
+    background-color: #e65f00;
+    outline: none;
+  }
+
+  /* === Modal popup styles === */
+  .modal {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+  }
+
+  .modal-content {
+    background: var(--white);
+    padding: 2rem;
+    max-width: 320px;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    font-size: 1rem;
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  .warning-text {
+    color: var(--error-red);
+    font-weight: bold;
+  }
+
+  /* === Quick Book Section === */
+  #quickBook {
+    margin-bottom: 2rem;
+  }
+  #quickBook h2 {
+    margin-bottom: 1rem;
+  }
+  .quick-service {
+    margin-bottom: 0.8rem;
+  }
+  #quickBookForm label,
+  #quickBookForm input {
+    width: 100%;
+    padding: 15px 20px;
+    margin: 0.3rem 0 1rem;
+    border-radius: 6px;
+    border: 2px solid var(--hi-vis-orange);
+    font-size: 1rem;
+    box-sizing: border-box;
+  }
+  #quickBookForm input:focus {
+    border-color: var(--hi-vis-yellow);
+    outline: none;
+  }
+
+  /* === Responsive tweaks === */
+  @media (min-width: 600px) {
+    body {
+      padding: 2rem;
     }
-  );
-});
-
-// Booking form submission
-bookingForm.addEventListener('submit', (e) => {
-  e.preventDefault();
-
-  if (addressInput.disabled || !addressInput.value.trim()) {
-    alert('Location is required. Please use the "Use My GPS" button first.');
-    return;
   }
+</style>
+</head>
+<body>
 
-  if (!bookingForm.checkValidity()) {
-    bookingForm.reportValidity();
-    return;
-  }
+<header>
+  <h1>Auto-mec Booking</h1>
+  <button id="navToggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="navMenu">
+    <span></span><span></span><span></span>
+  </button>
+  <nav id="navMenu" aria-hidden="true">
+    <a href="index.html">Home</a>
+    <a href="booking-form.html">Book Service</a>
+    <a href="admin.html">Admin Dashboard</a>
+  </nav>
+</header>
 
-  const formData = new FormData(bookingForm);
-  const data = Object.fromEntries(formData.entries());
+<main class="container">
 
-  const reference = 'AUC' + Math.floor(Math.random() * 900 + 100);
-  const fullLocation = data.address + (data.extraDetail ? ' - ' + data.extraDetail : '');
+  <!-- Quick Book Services Section -->
+  <section id="quickBook">
+    <h2>Quick Book Services</h2>
+    <button type="button" class="btn btn-primary quick-service" data-service="Emergency Breakdown">
+      Emergency Breakdown
+    </button>
+    <button type="button" class="btn btn-primary quick-service" data-service="Urgent Battery Replacement">
+      Urgent Battery Replacement
+    </button>
+    <button type="button" class="btn btn-primary quick-service" data-service="Tyre Change ASAP">
+      Tyre Change ASAP
+    </button>
 
-  confirmationText.innerHTML = `
-    <h2 id="confirmationTitle">✅ Booking Confirmed!</h2>
-    <p>🧾 <strong>Booking Reference:</strong> #${reference}</p>
-    <p>🔧 <strong>Service Type:</strong> ${data.serviceType}</p>
-    <p>🗓 <strong>Date:</strong> ${data.serviceDate}</p>
-    <p>⏰ <strong>Time:</strong> ${data.serviceTime}</p>
-    <p>📍 <strong>Location:</strong> ${fullLocation}</p>
-    <br />
-    <p>☎️ Our team will contact you shortly.</p>
-    <p>📸 Please take a screenshot or save this confirmation.</p>
-  `;
+    <!-- Quick book customer details form -->
+    <form id="quickBookForm" class="hidden" novalidate>
+      <h3>Please confirm your details</h3>
 
-  confirmationModal.classList.remove('hidden');
+      <label for="quickName">Full Name</label>
+      <input type="text" id="quickName" name="quickName" required placeholder="Your full name" />
 
-  // Reset and disable inputs except GPS/info buttons
-  bookingForm.reset();
-  formFields.forEach(el => el.disabled = true);
-  addressInput.disabled = true;
-  extraDetailInput.disabled = true;
-});
+      <label for="quickPhone">Phone Number</label>
+      <input type="text" id="quickPhone" name="quickPhone" required placeholder="Your phone number" />
 
-// Close confirmation modal
-closeModalBtn.addEventListener('click', () => {
-  confirmationModal.classList.add('hidden');
-});
+      <p><strong>Service:</strong> <span id="quickServiceName"></span></p>
+      <p><strong>Date:</strong> <span id="quickDate"></span></p>
+      <p><strong>Time:</strong> <span id="quickTime"></span></p>
+      <p><strong>Location:</strong> <span id="quickLocation">Waiting for GPS...</span></p>
 
-// Info modal handlers
-infoBtn.addEventListener('click', () => {
-  gpsInfoModal.classList.remove('hidden');
-});
+      <button type="submit" class="btn btn-primary">Confirm Quick Booking</button>
+    </form>
+  </section>
 
-closeGpsInfo.addEventListener('click', () => {
-  gpsInfoModal.classList.add('hidden');
-});
+  <!-- Main Booking Form -->
+  <form id="bookingForm" novalidate>
+    <button type="button" id="gpsBtn" class="btn btn-primary" aria-label="Use my GPS to detect location">Use My GPS</button>
 
-// Quick Book Section JS
-const quickBook = document.getElementById('quickBook');
-const quickButtons = quickBook.querySelectorAll('.quick-service');
-const quickForm = document.getElementById('quickBookForm');
-const quickServiceName = document.getElementById('quickServiceName');
-const quickDate = document.getElementById('quickDate');
-const quickTime = document.getElementById('quickTime');
-const quickLocation = document.getElementById('quickLocation');
-const quickName = document.getElementById('quickName');
-const quickPhone = document.getElementById('quickPhone');
+    <label for="serviceType">Service Type</label>
+    <select id="serviceType" name="serviceType" required>
+      <option value="" disabled selected>Select service</option>
+      <option value="Tyre Change">Tyre Change</option>
+      <option value="Battery Replacement">Battery Replacement</option>
+      <option value="Engine Diagnostics">Engine Diagnostics</option>
+      <option value="Breakdown Recovery">Breakdown Recovery</option>
+    </select>
 
-let quickCurrentLocation = ''; // GPS address for quick book
+    <label for="serviceDate">Date</label>
+    <input type="date" id="serviceDate" name="serviceDate" required />
 
-function getCurrentDateTime() {
-  const now = new Date();
-  const pad = (n) => (n < 10 ? '0' + n : n);
-  const date = now.getFullYear() + '-' + pad(now.getMonth() + 1) + '-' + pad(now.getDate());
-  const time = pad(now.getHours()) + ':' + pad(now.getMinutes());
-  return { date, time };
-}
+    <label for="serviceTime">Time</label>
+    <input type="time" id="serviceTime" name="serviceTime" required />
 
-function fillQuickBookLocation() {
-  if (!navigator.geolocation) {
-    quickLocation.textContent = 'Geolocation not supported';
-    return;
-  }
-  quickLocation.textContent = 'Locating...';
+    <label for="address">Location (auto-detected by GPS)</label>
+    <input type="text" id="address" name="address" placeholder="Use GPS to fill this" disabled required />
 
-  navigator.geolocation.getCurrentPosition(
-    (pos) => {
-      const lat = pos.coords.latitude;
-      const lon = pos.coords.longitude;
+    <label for="extraDetail">House name/number or additional info</label>
+    <input type="text" id="extraDetail" name="extraDetail" placeholder="Optional" disabled />
 
-      fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`)
-        .then(res => res.json())
-        .then(data => {
-          let road = data.address?.road || data.address?.pedestrian || '';
-          let postcode = data.address?.postcode || '';
-          let address = road ? `${road}, ${postcode}` : data.display_name || 'Unknown address';
-          quickCurrentLocation = address;
-          quickLocation.textContent = address;
-        })
-        .catch(() => {
-          quickLocation.textContent = 'Unable to get address';
-        });
-    },
-    () => {
-      quickLocation.textContent = 'GPS permission denied or unavailable';
-    }
-  );
-}
+    <!-- Info button to open GPS info modal -->
+    <button type="button" id="infoBtn" class="btn btn-secondary" aria-label="Show why GPS location is required">ℹ️</button>
 
-quickButtons.forEach(btn => {
-  btn.addEventListener('click', () => {
-    const service = btn.getAttribute('data-service');
-    quickServiceName.textContent = service;
+    <label for="description">Service Description</label>
+    <textarea id="description" name="description" rows="4" placeholder="Describe your problem or request..." required></textarea>
 
-    const { date, time } = getCurrentDateTime();
-    quickDate.textContent = date;
-    quickTime.textContent = time;
+    <button type="submit" class="btn btn-primary">Submit Booking</button>
+  </form>
 
-    quickForm.classList.remove('hidden');
-    fillQuickBookLocation();
-    quickForm.scrollIntoView({ behavior: 'smooth' });
-  });
-});
+</main>
 
-quickForm.addEventListener('submit', (e) => {
-  e.preventDefault();
+<!-- GPS Info Modal -->
+<div id="gpsInfoModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="gpsInfoTitle" aria-describedby="gpsInfoDesc">
+  <div class="modal-content">
+    <h2 id="gpsInfoTitle">Why GPS Location is Required</h2>
+    <p id="gpsInfoDesc">
+      We use your location to send the nearest available mobile mechanic.<br />
+      <strong class="warning-text">Bookings without GPS may be declined.</strong>
+    </p>
+    <button id="closeGpsInfo" class="btn btn-primary">Close</button>
+  </div>
+</div>
 
-  if (!quickName.value.trim() || !quickPhone.value.trim()) {
-    alert('Please fill your name and phone number.');
-    return;
-  }
-  if (!quickCurrentLocation) {
-    alert('Location not available. Please allow GPS or use the main booking form.');
-    return;
-  }
+<!-- Confirmation Modal -->
+<div id="confirmationModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="confirmationTitle" aria-describedby="confirmationDesc">
+  <div class="modal-content">
+    <div id="confirmationText"></div>
+    <button id="closeModal" class="btn btn-primary">Close</button>
+  </div>
+</div>
 
-  const bookingReference = 'AUC' + Math.floor(Math.random() * 900 + 100);
-  alert(
-    `Quick booking confirmed!\n\n` +
-    `Reference: #${bookingReference}\n` +
-    `Service: ${quickServiceName.textContent}\n` +
-    `Date: ${quickDate.textContent}\n` +
-    `Time: ${quickTime.textContent}\n` +
-    `Location: ${quickCurrentLocation}\n` +
-    `Name: ${quickName.value.trim()}\n` +
-    `Phone: ${quickPhone.value.trim()}\n\n` +
-    `Our team will contact you shortly. Please save this information.`
-  );
+<script src="booking-form.js" defer></script>
 
-  quickForm.reset();
-  quickForm.classList.add('hidden');
-  quickLocation.textContent = 'Waiting for GPS...';
-  quickCurrentLocation = '';
-});
+</body>
+</html>
