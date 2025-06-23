@@ -1,32 +1,30 @@
-// Initialize Flatpickr inline calendar with time picker enabled
+// Initialize Flatpickr inline calendar with time enabled
 flatpickr("#calendar", {
   enableTime: true,
   inline: true,
   dateFormat: "Y-m-d H:i",
   onChange: function(selectedDates, dateStr) {
-    // Update hidden input value to the selected date-time string
+    // Update hidden input to sync with calendar selection
     document.getElementById('time').value = dateStr;
   }
 });
 
-// Handle booking form submission
+// Booking form submission handler
 document.getElementById('bookingForm').addEventListener('submit', function(e) {
   e.preventDefault();
 
-  // Simple validation: check if date/time is selected
+  // Validate that user picked date/time
   if (!document.getElementById('time').value) {
     alert('Please select a preferred time using the calendar.');
     return;
   }
 
-  // TODO: Add your real submission logic here (e.g., API call)
+  // Here you can add your backend submission logic (API call, etc.)
 
   // Show confirmation message
   document.getElementById('confirmation').classList.remove('hidden');
 
-  // Reset form (optional)
+  // Reset form and hidden input after submission
   this.reset();
-
-  // Clear hidden date input manually after reset
   document.getElementById('time').value = '';
 });
