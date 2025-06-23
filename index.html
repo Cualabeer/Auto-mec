@@ -3,22 +3,53 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Auto-mec - Home</title>
+  <title>Auto-Mec - Mobile Mechanic You Can Trust</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div class="container text-center">
-    <h1>Welcome to <span class="highlight-text">Auto-mec</span></h1>
-    <p>Your trusted mobile mechanic and roadside assistance service.</p>
-    
-    <div class="buttons">
-      <a href="client/booking-form.html" class="btn btn-primary">Book a Service</a>
-      <a href="/admin.html" class="btn btn-secondary">Admin Login</a>
-    </div>
-    
-    <footer>
-      <p>Contact us at <a href="mailto:support@auto-mec.com">support@auto-mec.com</a></p>
-    </footer>
-  </div>
+  <div id="siteHeader"></div>
+
+  <main class="container">
+    <section class="hero">
+      <h1>Fast, Reliable, and Affordable</h1>
+      <p>Trusted Mobile Mechanic Services — We Come to You!</p>
+      <a href="client/booking-form.html" class="btn btn-primary">📅 Book Now</a>
+    </section>
+
+    <section class="badges">
+      <div class="badge">✔ Fully Qualified</div>
+      <div class="badge">🚗 Mobile Coverage</div>
+      <div class="badge">⭐ 5-Star Feedback</div>
+      <div class="badge">🕒 Same-Day Appointments</div>
+    </section>
+
+    <section class="trust">
+      <h2>Why Choose Auto-Mec?</h2>
+      <ul>
+        <li><strong>Transparent Pricing</strong> – No hidden charges</li>
+        <li><strong>Professional Tools</strong> – Diagnostics, brakes, batteries & more</li>
+        <li><strong>Flexible Locations</strong> – Home, roadside, or workplace</li>
+        <li><strong>Fast Response</strong> – Emergency call-outs available</li>
+      </ul>
+    </section>
+
+    <section class="cta">
+      <h2>Need Help Now?</h2>
+      <p>Click below to schedule your repair, inspection or breakdown assistance.</p>
+      <a href="client/booking-form.html" class="btn btn-primary">📲 Book a Service</a>
+      <p class="small">Or call us directly: <a href="tel:07403626985">07403 626 985</a></p>
+    </section>
+  </main>
+
+  <script>
+    fetch('shared/header.html')
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById('siteHeader').innerHTML = data;
+        document.getElementById('navToggle').addEventListener('click', () => {
+          document.getElementById('navMenu').classList.toggle('show');
+        });
+      });
+  </script>
 </body>
 </html>
