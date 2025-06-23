@@ -3,125 +3,128 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Book a Mechanic</title>
+  <title>Auto-mec - Booking Form</title>
   <link rel="stylesheet" href="../styles.css" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
 </head>
 <body>
-  <div id="siteHeader"></div>
+
+  <!-- Header placeholder -->
+  <header id="siteHeader"></header>
+
   <main class="container">
-    <h1>Book a Mobile Mechanic</h1>
-    <form id="bookingForm">
-      <label for="service">Select Service</label>
-      <select id="service" name="service" required>
-        <option value="">-- Choose a Service --</option>
-        <option value="battery">Battery Replacement</option>
-        <option value="jumpstart">Jump Start</option>
-        <option value="brakes">Brakes Repair</option>
-        <option value="diagnostics">Diagnostics</option>
-        <option value="oilchange">Oil Change</option>
+    <h1>Book a Service</h1>
+    <form id="bookingForm" autocomplete="off">
+      <label for="serviceType">Service Type</label>
+      <select id="serviceType" name="serviceType" required>
+        <option value="" disabled selected>Select a service</option>
+        <option value="oilChange">Oil Change</option>
+        <option value="brakeService">Brake Service</option>
+        <option value="engineCheck">Engine Check</option>
+        <option value="tyreReplacement">Tyre Replacement</option>
       </select>
 
-      <label for="date">Select Date</label>
-      <input id="date" name="date" required />
+      <label for="serviceDate">Date</label>
+      <input type="date" id="serviceDate" name="serviceDate" required />
 
-      <label for="time">Select Time</label>
-      <input id="time" name="time" required />
+      <label for="serviceTime">Time</label>
+      <input type="time" id="serviceTime" name="serviceTime" required />
 
-      <label for="address">Your Address</label>
-      <textarea id="address" name="address" rows="2" placeholder="Enter your address manually" required></textarea>
+      <label for="description">Description / Notes</label>
+      <textarea id="description" name="description" rows="4" placeholder="Additional details..."></textarea>
 
-      <button type="button" id="useGpsBtn" class="btn btn-secondary" style="background-color:#FFC324; color:#FF6700; margin-bottom:1rem;">Use My GPS</button>
-      <button type="submit" class="btn btn-primary">Book Now</button>
+      <label>Location</label>
+      <button type="button" class="btn-secondary" id="gpsBtn">Use My GPS</button>
+      <input
+        type="text"
+        id="address"
+        name="address"
+        placeholder="Or enter address manually"
+        required
+      />
+
+      <button type="submit" class="btn btn-primary">Submit Booking</button>
     </form>
-    <div id="confirmation" class="confirmation hidden"></div>
+
+    <div id="confirmation" class="hidden"></div>
   </main>
 
-  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <script>
+    // Load header and setup hamburger toggle
     fetch('../shared/header.html')
       .then(res => res.text())
       .then(data => {
         document.getElementById('siteHeader').innerHTML = data;
-        setTimeout(() => {
-          const toggle = document.getElementById('navToggle');
-          const menu = document.getElementById('navMenu');
-          if (toggle && menu) {
-            toggle.addEventListener('click', () => {
-              menu.classList.toggle('show');
-            });
-          }
-        }, 0);
+        const toggle = document.getElementById('navToggle');
+        const menu = document.getElementById('navMenu');
+        if (toggle && menu) {
+          toggle.addEventListener('click', () => {
+            menu.classList.toggle('show');
+          });
+        }
       });
 
-    // Initialize date and time pickers
-    flatpickr("#date", {
-      altInput: true,
-      altFormat: "F j, Y",
-      dateFormat: "Y-m-d",
-      minDate: "today",
-    });
-    flatpickr("#time", {
-      enableTime: true,
-      noCalendar: true,
-      dateFormat: "H:i",
-      time_24hr: true,
-      minTime: "08:00",
-      maxTime: "18:00"
-    });
+    // GPS button functionality
+    const gpsBtn = document.getElementById('gpsBtn');
+    const addressInput = document.getElementById('address');
 
-    const useGpsBtn = document.getElementById("useGpsBtn");
-    const addressField = document.getElementById("address");
-
-    useGpsBtn.addEventListener("click", () => {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            const lat = position.coords.latitude;
-            const lon = position.coords.longitude;
-            fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`)
-              .then(response => response.json())
-              .then(data => {
-                if(data.address) {
-                  let addr = "";
-                  if(data.address.road) addr += data.address.road + ", ";
-                  if(data.address.city) addr += data.address.city + ", ";
-                  if(data.address.state) addr += data.address.state + ", ";
-                  if(data.address.postcode) addr += data.address.postcode + ", ";
-                  if(data.address.country) addr += data.address.country;
-                  addressField.value = addr;
-                } else {
-                  addressField.value = "Unable to determine address from GPS";
-                }
-              })
-              .catch(() => {
-                addressField.value = "Error retrieving address from GPS";
-              });
-          },
-          () => {
-            addressField.value = "GPS permission denied or unavailable";
-          }
-        );
-      } else {
-        addressField.value = "Geolocation not supported by your browser";
-      }
-    });
-
-    // Form submission handler (demo only)
-    document.getElementById("bookingForm").addEventListener("submit", (e) => {
-      e.preventDefault();
-      const formData = new FormData(e.target);
-      const service = formData.get("service");
-      const date = formData.get("date");
-      const time = formData.get("time");
-      const address = formData.get("address");
-      if (!service || !date || !time || !address) {
-        alert("Please fill in all fields");
+    gpsBtn.addEventListener('click', () => {
+      if (!navigator.geolocation) {
+        alert('Geolocation is not supported by your browser');
         return;
       }
-      document.getElementById("confirmation").classList.remove("hidden");
-      document.getElementById("confirmation").textContent = `Thank you! Your ${service} booking for ${date} at ${time} has been received.`;
-      e.target.reset();
+
+      gpsBtn.textContent = 'Locating...';
+      gpsBtn.disabled = true;
+
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          // Use reverse geocoding API to get address from lat/lon
+          // Using OpenStreetMap Nominatim API (free)
+          fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`)
+            .then(response => response.json())
+            .then(data => {
+              addressInput.value = data.display_name || '';
+              gpsBtn.textContent = 'Use My GPS';
+              gpsBtn.disabled = false;
+            })
+            .catch(() => {
+              alert('Unable to retrieve address from GPS');
+              gpsBtn.textContent = 'Use My GPS';
+              gpsBtn.disabled = false;
+            });
+        },
+        (error) => {
+          alert('Unable to retrieve your location');
+          gpsBtn.textContent = 'Use My GPS';
+          gpsBtn.disabled = false;
+        }
+      );
+    });
+
+    // Form submission handling
+    const form = document.getElementById('bookingForm');
+    const confirmation = document.getElementById('confirmation');
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      // Simple form validation can be enhanced
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      const formData = new FormData(form);
+      const bookingData = Object.fromEntries(formData.entries());
+
+      // Here you would send bookingData to your backend API
+      // For demo, just show confirmation message
+
+      confirmation.textContent = `Thank you! Your booking for ${bookingData.serviceType} on ${bookingData.serviceDate} at ${bookingData.serviceTime} has been received. We will contact you at the provided address.`;
+      confirmation.classList.remove('hidden');
+
+      form.reset();
     });
   </script>
 </body>
