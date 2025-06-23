@@ -5,10 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Book a Service</title>
   <link rel="stylesheet" href="../styles.css" />
-  <!-- Flatpickr CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
 </head>
 <body>
+  <div id="siteHeader"></div>
+
   <div class="container">
     <h1>Book a Service</h1>
     <form id="bookingForm">
@@ -37,8 +38,19 @@
     <div id="confirmation" class="confirmation hidden">✅ Booking submitted!</div>
   </div>
 
-  <!-- Flatpickr JS -->
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <script src="script.js"></script>
+
+  <script>
+    // Load shared header
+    fetch('/shared/header.html')
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById('siteHeader').innerHTML = data;
+        document.getElementById('navToggle').addEventListener('click', () => {
+          document.getElementById('navMenu').classList.toggle('show');
+        });
+      });
+  </script>
 </body>
 </html>
