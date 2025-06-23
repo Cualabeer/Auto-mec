@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Book a Service</title>
   <link rel="stylesheet" href="../styles.css" />
+  <!-- Flatpickr CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
 </head>
 <body>
   <div class="container">
@@ -19,8 +21,9 @@
         <option value="Diagnostic Check">Diagnostic Check</option>
       </select>
 
-      <label for="time">Preferred Time</label>
-      <input type="datetime-local" id="time" required />
+      <label>Preferred Time</label>
+      <div id="calendar"></div>
+      <input type="hidden" id="time" name="time" required />
 
       <div class="gps-container">
         <input type="checkbox" id="locationToggle" />
@@ -39,6 +42,8 @@
     <div id="confirmation" class="confirmation hidden">✅ Booking submitted!</div>
   </div>
 
+  <!-- Flatpickr JS -->
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <script src="script.js"></script>
 </body>
 </html>
