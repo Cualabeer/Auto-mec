@@ -1,361 +1,251 @@
-/* ========== COLOR VARIABLES ========== */
+/* =========
+   Auto-mec Stylesheet
+   Fully commented for clarity
+   ========= */
+
+/* === Color Variables === */
 :root {
-  --hi-vis-orange: #FF6700;        /* Bright orange for hi-vis highlights */
-  --mango-yellow: #FFC324;         /* Mango yellow for buttons & backgrounds */
-  --neon-green: #39FF14;           /* Neon green for success/confirmation */
-  --alert-red: #FF3B3B;            /* Red for alerts/errors */
-  --dark-text: #222222;            /* Main dark text color */
-  --white: #FFFFFF;                /* White */
-  --light-gray: #F5F5F5;           /* Light gray background */
+  --hi-vis-orange: #ff7300;   /* Main bright orange */
+  --hi-vis-yellow: #ffec3d;   /* Hi-vis yellow */
+  --white: #ffffff;
+  --black: #000000;
+  --gray-light: #f2f2f2;
+  --gray-dark: #333333;
+  --error-red: #c62828;       /* Error/warning red */
 }
 
-/* ========== RESET & BASE ========== */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;          /* Includes padding and border in element width */
-}
-
+/* === Global base styles === */
 body {
-  font-family: "Segoe UI", sans-serif;
-  font-size: 16px;
-  line-height: 1.6;
-  background-color: var(--white);
-  color: var(--dark-text);
+  font-family: Arial, sans-serif;
+  background: var(--white);
+  margin: 0;
+  padding: 1rem;
+  color: var(--gray-dark);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-a {
-  color: var(--hi-vis-orange);
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
-}
-
-/* ========== CONTAINER ========== */
+/* Center container and limit max width for readability */
 .container {
-  padding: 1.5rem;
-  margin-top: 4.5rem;              /* To avoid header overlap */
-  max-width: 700px;
-  margin-left: auto;
-  margin-right: auto;
+  max-width: 480px;
+  margin: 0 auto;
 }
 
-/* ========== BUTTONS ========== */
+/* === Buttons styling === */
 .btn {
-  display: inline-block;
-  text-align: center;
-  font-weight: bold;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: 0.2s ease;
-}
-
-/* Primary button - full width, hi-vis orange background */
-.btn-primary {
-  background-color: var(--hi-vis-orange);
-  color: white;
-  padding: 1rem;
+  display: block;              /* Full width */
+  width: 100%;
+  padding: 20px;               /* Comfortable tap target */
+  margin: 1rem 0;
   font-size: 1.1rem;
-  width: 100%;
-}
-
-.btn-primary:hover {
-  background-color: #e95f00;       /* Slightly darker on hover */
-}
-
-/* Secondary button - mango yellow background with orange text */
-.btn-secondary {
-  background-color: var(--mango-yellow);
-  color: var(--hi-vis-orange);
-  padding: 1rem;
-  font-weight: bold;
-  width: 100%;
-  margin-bottom: 1rem;
-  border-radius: 5px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  text-align: center;
   transition: background-color 0.3s ease;
 }
 
-.btn-secondary:hover {
-  background-color: #f8b500;       /* Darker mango yellow on hover */
-}
-
-/* ========== NAVIGATION HEADER ========== */
-.navbar {
+/* Primary buttons: hi-vis orange with white text */
+.btn-primary {
   background-color: var(--hi-vis-orange);
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1rem;
-  position: sticky;
-  top: 0;
-  z-index: 999;                   /* Stays on top */
-}
-
-/* Brand / logo */
-.nav-brand {
-  font-size: 1.4rem;
+  color: var(--white);
   font-weight: bold;
 }
 
-/* Hamburger menu button - hidden on desktop */
-.nav-toggle {
-  font-size: 1.5rem;
-  background: none;
-  border: none;
-  color: white;
-  cursor: pointer;
-  display: none;
-}
-
-/* Desktop menu - horizontal */
-.nav-menu {
-  display: flex;
-  gap: 1rem;
-}
-
-/* Nav links styling */
-.nav-menu a {
-  color: white;
-  text-decoration: none;
+/* Secondary buttons: hi-vis yellow with black text and orange border */
+.btn-secondary {
+  background-color: var(--hi-vis-yellow);
+  color: var(--black);
   font-weight: bold;
-  transition: opacity 0.2s;
+  border: 2px solid var(--hi-vis-orange);
 }
 
-.nav-menu a:hover,
-.nav-menu a.active {
-  opacity: 0.8;
+/* Button hover states */
+.btn-primary:hover {
+  background-color: #e65f00; /* Slightly darker orange */
 }
 
-/* Responsive - mobile menu */
-@media (max-width: 768px) {
-  .nav-toggle {
-    display: block;              /* Show hamburger on mobile */
-  }
-
-  .nav-menu {
-    display: none;               /* Hide nav by default */
-    flex-direction: column;
-    background-color: var(--hi-vis-orange);
-    position: absolute;
-    top: 60px;
-    left: 0;
-    right: 0;
-    padding: 1rem;
-  }
-
-  /* Show menu when toggled */
-  .nav-menu.show {
-    display: flex;
-  }
+.btn-secondary:hover {
+  background-color: #fff55c; /* Slightly brighter yellow */
 }
 
-/* ========== CARD WRAPPER & CARDS FOR HOMEPAGE ========== */
-.card-wrapper {
-  display: flex;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;  /* Snap scrolling on X axis */
-  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
-}
-
-/* Each card fills viewport width */
-.card {
-  flex: 0 0 100%;
-  scroll-snap-align: start;        /* Snap start of each card */
-  padding: 2rem 1.5rem;
-  min-height: 100vh;
+/* === Form Inputs and Selects === */
+input[type="text"],
+input[type="date"],
+input[type="time"],
+select,
+textarea {
+  width: 100%;                /* Full width */
+  padding: 20px;              /* Large touch targets */
+  margin-top: 0.3rem;
+  margin-bottom: 1rem;
+  border: 2px solid var(--hi-vis-orange);
+  border-radius: 6px;
+  font-size: 1rem;
   box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  background: var(--light-gray);
-  border-right: 1px solid #eee;
+  transition: border-color 0.3s ease;
+  resize: vertical;
 }
 
-/* Headings and paragraphs spacing */
-.card h1, .card h2 {
-  margin-bottom: 1rem;
+/* Focus style for accessibility */
+input[type="text"]:focus,
+input[type="date"]:focus,
+input[type="time"]:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--hi-vis-yellow);
+  outline: none;
 }
 
-.card p {
-  font-size: 1.1rem;
-  margin-bottom: 1.5rem;
-}
-
-/* Hero card background and text */
-.card-hero {
-  background: var(--mango-yellow);
-  text-align: center;
-}
-
-/* Step cards background */
-.card-step {
-  background: var(--white);
-}
-
-/* Step number badge */
-.step-number {
-  width: 40px;
-  height: 40px;
-  background: var(--hi-vis-orange);
-  color: white;
+/* === Labels === */
+label {
   font-weight: bold;
-  font-size: 1.2rem;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 1rem;
-}
-
-/* Trust card style */
-.card-trust {
-  background: #fff3e0;
-}
-
-/* Trust list styling */
-.card-trust ul {
-  list-style: none;
-  padding-left: 0;
-}
-
-.card-trust li {
-  padding-left: 1.5rem;
-  position: relative;
-  margin-bottom: 0.8rem;
-}
-
-/* Custom checkmark for trust points */
-.card-trust li::before {
-  content: "✔";
-  color: var(--hi-vis-orange);
-  position: absolute;
-  left: 0;
-}
-
-/* Call to action card style */
-.card-cta {
-  background: var(--hi-vis-orange);
-  color: white;
-  text-align: center;
-}
-
-.card-cta .btn {
-  background: white;
-  color: var(--hi-vis-orange);
-  font-weight: bold;
-}
-
-/* ========== BOOKING FORM ========== */
-
-/* Label styles */
-form label {
-  font-weight: 600;
-  margin-bottom: 0.5rem;
   display: block;
-  color: var(--dark-text);
-}
-
-/* Confirmation box styling */
-#confirmation {
   margin-top: 1rem;
-  padding: 1rem;
-  background: var(--neon-green);
-  color: #000;
-  font-weight: bold;
-  border-radius: 5px;
-  width: 100%;
 }
 
-/* Hide elements */
+/* === Confirmation Modal === */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6); /* Semi-transparent dark overlay */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+/* Modal content box */
+.modal-content {
+  background: var(--white);
+  padding: 2rem;
+  max-width: 90%;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  font-size: 1.1rem;
+}
+
+/* Modal heading */
+.modal-content h2 {
+  margin-bottom: 1rem;
+  color: var(--hi-vis-orange);
+}
+
+/* Hide modal by default */
 .hidden {
   display: none;
 }
 
-/* ========== ADMIN DASHBOARD ========== */
-
-/* Cards container grid */
-.dashboard-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1.5rem;
-  margin-top: 2rem;
+/* === GPS Info Box === */
+.info-box {
+  background-color: #fff8e1;            /* Soft yellow background */
+  border-left: 4px solid var(--hi-vis-orange);  /* Orange side border */
+  padding: 1rem;
+  margin: 1rem 0;
+  font-size: 0.95rem;
+  border-radius: 6px;
+  color: #333;                          /* Dark text */
 }
 
-/* Admin dashboard cards style */
-.admin-card {
-  background: var(--mango-yellow);
-  border-radius: 10px;
-  padding: 1.5rem;
-  box-shadow: 0 4px 8px rgba(255, 103, 0, 0.2);
-  color: var(--dark-text);
-  font-weight: 600;
-  text-align: center;
-  transition: box-shadow 0.3s ease;
-  cursor: default;
+/* Highlight strong text in info box */
+.info-box strong {
+  color: #e65100;                      /* Darker orange */
 }
 
-.admin-card:hover {
-  box-shadow: 0 6px 12px rgba(255, 103, 0, 0.4);
+/* Warning text in info box */
+.warning-text {
+  color: var(--error-red);
+  font-weight: bold;
 }
 
-/* ========== MOBILE-ONLY BOOKING FORM FULL WIDTH FIELDS ========== */
-@media (max-width: 768px) {
-  form input,
-  form select,
-  form textarea,
-  form button {
-    width: 100%;
-    box-sizing: border-box;
-    padding: 1.2rem 1rem;
-    font-size: 1.1rem;
-    border: 2px solid #ccc;
-    border-radius: 8px;
-    margin-bottom: 1.2rem;
-    font-family: inherit;
-    transition: border-color 0.3s ease;
+/* === Header styles with hamburger menu === */
+header {
+  background: var(--hi-vis-orange);
+  color: var(--white);
+  padding: 1rem;
+  position: sticky;        /* Sticks to top when scrolling */
+  top: 0;
+  z-index: 10000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Header title */
+header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+/* Hamburger toggle button */
+#navToggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 22px;
+  width: 28px;
+  padding: 0;
+}
+
+/* Hamburger lines */
+#navToggle span {
+  display: block;
+  height: 4px;
+  background: var(--white);
+  border-radius: 2px;
+}
+
+/* Navigation menu hidden by default */
+nav#navMenu {
+  position: absolute;
+  top: 56px;               /* Just below header */
+  right: 1rem;
+  background: var(--hi-vis-orange);
+  border-radius: 6px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  display: none;
+  flex-direction: column;
+  min-width: 150px;
+  z-index: 10001;
+}
+
+/* Show nav menu when toggled */
+nav#navMenu.show {
+  display: flex;
+}
+
+/* Nav links */
+nav#navMenu a {
+  color: var(--white);
+  padding: 0.75rem 1rem;
+  text-decoration: none;
+  font-weight: bold;
+  border-bottom: 1px solid rgba(255,255,255,0.3);
+}
+
+/* Remove border for last link */
+nav#navMenu a:last-child {
+  border-bottom: none;
+}
+
+/* Hover effect for nav links */
+nav#navMenu a:hover {
+  background: var(--hi-vis-yellow);
+  color: var(--black);
+}
+
+/* === Responsive adjustments === */
+@media (min-width: 600px) {
+  body {
+    padding: 2rem;
   }
 
-  form textarea {
-    resize: vertical;
-    min-height: 80px;
-  }
-
-  form button.btn-primary {
-    background-color: var(--hi-vis-orange);
-    color: white;
-    font-weight: bold;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-
-  form button.btn-primary:hover {
-    background-color: #e95f00;
-  }
-
-  form button.btn-secondary {
-    background-color: var(--mango-yellow);
-    color: var(--hi-vis-orange);
-    border: none;
-    cursor: pointer;
-    margin-bottom: 1rem;
-  }
-
-  form button.btn-secondary:hover {
-    background-color: #f8b500;
-  }
-
-  #confirmation {
-    margin-top: 1rem;
-    padding: 1rem;
-    background: var(--neon-green);
-    color: #000;
-    font-weight: bold;
-    border-radius: 5px;
-    width: 100%;
-  }
+  /* You can add desktop styles here if needed */
 }
