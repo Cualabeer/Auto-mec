@@ -3,41 +3,57 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Auto-Mec - Mobile Mechanic You Can Trust</title>
+  <title>Auto-Mec – Trusted Mobile Mechanic</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <div id="siteHeader"></div>
 
-  <main class="container">
-    <section class="hero">
-      <h1>Fast, Reliable, and Affordable</h1>
-      <p>Trusted Mobile Mechanic Services — We Come to You!</p>
-      <a href="client/booking-form.html" class="btn btn-primary">📅 Book Now</a>
+  <main class="card-wrapper">
+    <!-- Card 1: Hero -->
+    <section class="card card-hero">
+      <h1>Need a Mobile Mechanic?</h1>
+      <p>We come to your home, work or roadside – fast and affordable.</p>
+      <a href="client/booking-form.html" class="btn btn-primary">📲 Book Now</a>
     </section>
 
-    <section class="badges">
-      <div class="badge">✔ Fully Qualified</div>
-      <div class="badge">🚗 Mobile Coverage</div>
-      <div class="badge">⭐ 5-Star Feedback</div>
-      <div class="badge">🕒 Same-Day Appointments</div>
+    <!-- Card 2: Step 1 -->
+    <section class="card card-step">
+      <div class="step-number">1</div>
+      <h2>Choose a Service</h2>
+      <p>Battery, jump start, diagnostics, brakes & more.</p>
     </section>
 
-    <section class="trust">
+    <!-- Card 3: Step 2 -->
+    <section class="card card-step">
+      <div class="step-number">2</div>
+      <h2>Tell Us Where</h2>
+      <p>Use GPS or enter your location manually.</p>
+    </section>
+
+    <!-- Card 4: Step 3 -->
+    <section class="card card-step">
+      <div class="step-number">3</div>
+      <h2>We Come to You</h2>
+      <p>On-site repair or inspection with pro tools.</p>
+    </section>
+
+    <!-- Card 5: Trust/Benefits -->
+    <section class="card card-trust">
       <h2>Why Choose Auto-Mec?</h2>
       <ul>
-        <li><strong>Transparent Pricing</strong> – No hidden charges</li>
-        <li><strong>Professional Tools</strong> – Diagnostics, brakes, batteries & more</li>
-        <li><strong>Flexible Locations</strong> – Home, roadside, or workplace</li>
-        <li><strong>Fast Response</strong> – Emergency call-outs available</li>
+        <li>✔ Fully Qualified & Insured</li>
+        <li>✔ Fast, Same-Day Service</li>
+        <li>✔ Clear Pricing, No Surprises</li>
+        <li>✔ 5★ Rated in Your Area</li>
       </ul>
     </section>
 
-    <section class="cta">
-      <h2>Need Help Now?</h2>
-      <p>Click below to schedule your repair, inspection or breakdown assistance.</p>
-      <a href="client/booking-form.html" class="btn btn-primary">📲 Book a Service</a>
-      <p class="small">Or call us directly: <a href="tel:07403626985">07403 626 985</a></p>
+    <!-- Card 6: Final CTA -->
+    <section class="card card-cta">
+      <h2>Book in Seconds</h2>
+      <p>Fast mobile repairs from a trusted local mechanic.</p>
+      <a href="client/booking-form.html" class="btn btn-primary">🚗 Book a Mechanic</a>
     </section>
   </main>
 
@@ -46,9 +62,15 @@
       .then(res => res.text())
       .then(data => {
         document.getElementById('siteHeader').innerHTML = data;
-        document.getElementById('navToggle').addEventListener('click', () => {
-          document.getElementById('navMenu').classList.toggle('show');
-        });
+        setTimeout(() => {
+          const toggle = document.getElementById('navToggle');
+          const menu = document.getElementById('navMenu');
+          if (toggle && menu) {
+            toggle.addEventListener('click', () => {
+              menu.classList.toggle('show');
+            });
+          }
+        }, 0);
       });
   </script>
 </body>
