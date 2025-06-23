@@ -8,48 +8,73 @@
 </head>
 <body>
 
-  <!-- Header placeholder -->
+  <!-- Shared Header -->
   <header id="siteHeader"></header>
 
   <main class="container">
     <h1>Book a Service</h1>
+
     <form id="bookingForm" autocomplete="off">
-      <label for="serviceType">Service Type</label>
-      <select id="serviceType" name="serviceType" required>
-        <option value="" disabled selected>Select a service</option>
-        <option value="oilChange">Oil Change</option>
-        <option value="brakeService">Brake Service</option>
-        <option value="engineCheck">Engine Check</option>
-        <option value="tyreReplacement">Tyre Replacement</option>
-      </select>
 
-      <label for="serviceDate">Date</label>
-      <input type="date" id="serviceDate" name="serviceDate" required />
+      <!-- GPS Info Box -->
+      <div class="info-box">
+        <p><strong>ℹ️ Why GPS is required:</strong><br />
+        We use your location to send the nearest available mobile mechanic.<br />
+        <span class="warning-text">Bookings without GPS may be declined.</span></p>
+      </div>
 
-      <label for="serviceTime">Time</label>
-      <input type="time" id="serviceTime" name="serviceTime" required />
-
-      <label for="description">Description / Notes</label>
-      <textarea id="description" name="description" rows="4" placeholder="Additional details..."></textarea>
-
-      <label>Location</label>
+      <!-- Location Fields -->
+      <label>Your Location</label>
       <button type="button" class="btn-secondary" id="gpsBtn">Use My GPS</button>
       <input
         type="text"
         id="address"
         name="address"
-        placeholder="Or enter address manually"
+        placeholder="Street & postcode will appear here"
         required
+        disabled
+      />
+      <input
+        type="text"
+        id="extraDetail"
+        name="extraDetail"
+        placeholder="Add house number, flat or landmark (optional)"
+        disabled
       />
 
-      <button type="submit" class="btn btn-primary">Submit Booking</button>
-    </form>
+      <!-- Service Details -->
+      <label for="serviceType">🔧 Service Type</label>
+      <select id="serviceType" name="serviceType" required disabled>
+        <option value="" disabled selected>Select a service</option>
+        <option value="Oil Change">Oil Change</option>
+        <option value="Brake Service">Brake Service</option>
+        <option value="Engine Check">Engine Check</option>
+        <option value="Tyre Replacement">Tyre Replacement</option>
+      </select>
 
-    <div id="confirmation" class="hidden"></div>
+      <label for="serviceDate">🗓 Date</label>
+      <input type="date" id="serviceDate" name="serviceDate" required disabled />
+
+      <label for="serviceTime">⏰ Time</label>
+      <input type="time" id="serviceTime" name="serviceTime" required disabled />
+
+      <label for="description">📝 Notes</label>
+      <textarea id="description" name="description" rows="4" placeholder="Extra info for the mechanic..." disabled></textarea>
+
+      <button type="submit" class="btn btn-primary" disabled>Submit Booking</button>
+    </form>
   </main>
 
+  <!-- Confirmation Modal -->
+  <div id="confirmationModal" class="modal hidden">
+    <div class="modal-content">
+      <div id="confirmationText"></div>
+      <button id="closeModal" class="btn btn-primary">Close</button>
+    </div>
+  </div>
+
   <script>
-    // Load header and setup hamburger toggle
+    // Load shared header
     fetch('../shared/header.html')
       .then(res => res.text())
       .then(data => {
@@ -63,13 +88,21 @@
         }
       });
 
-    // GPS button functionality
+    // Elements
     const gpsBtn = document.getElementById('gpsBtn');
     const addressInput = document.getElementById('address');
+    const extraDetailInput = document.getElementById('extraDetail');
+    const bookingForm = document.getElementById('bookingForm');
+    const formFields = bookingForm.querySelectorAll('select, input:not(#address):not(#extraDetail), textarea, button[type="submit"]');
+
+    // Disable form fields initially except GPS button
+    formFields.forEach(el => el.disabled = true);
+    addressInput.disabled = true;
+    extraDetailInput.disabled = true;
 
     gpsBtn.addEventListener('click', () => {
       if (!navigator.geolocation) {
-        alert('Geolocation is not supported by your browser');
+        alert('Geolocation not supported by your browser.');
         return;
       }
 
@@ -77,54 +110,83 @@
       gpsBtn.disabled = true;
 
       navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const { latitude, longitude } = position.coords;
-          // Use reverse geocoding API to get address from lat/lon
-          // Using OpenStreetMap Nominatim API (free)
+        (pos) => {
+          const { latitude, longitude } = pos.coords;
           fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`)
-            .then(response => response.json())
+            .then(res => res.json())
             .then(data => {
-              addressInput.value = data.display_name || '';
+              const display = data.address?.road
+                ? `${data.address.road}, ${data.address.postcode || ''}`
+                : data.display_name || '';
+              addressInput.value = display;
+              addressInput.disabled = false;
+              extraDetailInput.disabled = false;
               gpsBtn.textContent = 'Use My GPS';
               gpsBtn.disabled = false;
+
+              // Enable all other form fields
+              formFields.forEach(el => el.disabled = false);
             })
             .catch(() => {
-              alert('Unable to retrieve address from GPS');
+              alert('Unable to retrieve your address.');
               gpsBtn.textContent = 'Use My GPS';
               gpsBtn.disabled = false;
             });
         },
-        (error) => {
-          alert('Unable to retrieve your location');
+        () => {
+          alert('GPS failed or permission denied. Please enable location to continue.');
           gpsBtn.textContent = 'Use My GPS';
           gpsBtn.disabled = false;
         }
       );
     });
 
-    // Form submission handling
-    const form = document.getElementById('bookingForm');
-    const confirmation = document.getElementById('confirmation');
+    // Confirmation modal elements
+    const modal = document.getElementById('confirmationModal');
+    const confirmationText = document.getElementById('confirmationText');
+    const closeModal = document.getElementById('closeModal');
 
-    form.addEventListener('submit', (e) => {
+    bookingForm.addEventListener('submit', (e) => {
       e.preventDefault();
 
-      // Simple form validation can be enhanced
-      if (!form.checkValidity()) {
-        form.reportValidity();
+      if (addressInput.disabled || !addressInput.value.trim()) {
+        alert('❌ Location is required. Please use the GPS button first.');
         return;
       }
 
-      const formData = new FormData(form);
-      const bookingData = Object.fromEntries(formData.entries());
+      if (!bookingForm.checkValidity()) {
+        bookingForm.reportValidity();
+        return;
+      }
 
-      // Here you would send bookingData to your backend API
-      // For demo, just show confirmation message
+      const formData = new FormData(bookingForm);
+      const data = Object.fromEntries(formData.entries());
 
-      confirmation.textContent = `Thank you! Your booking for ${bookingData.serviceType} on ${bookingData.serviceDate} at ${bookingData.serviceTime} has been received. We will contact you at the provided address.`;
-      confirmation.classList.remove('hidden');
+      const reference = 'AUC' + Math.floor(Math.random() * 900 + 100);
+      const fullLocation = `${data.address}${data.extraDetail ? ' - ' + data.extraDetail : ''}`;
 
-      form.reset();
+      confirmationText.innerHTML = `
+        <h2>✅ Booking Confirmed!</h2>
+        <p>🧾 <strong>Booking Ref:</strong> #${reference}</p>
+        <p>🔧 <strong>Service:</strong> ${data.serviceType}</p>
+        <p>🗓 <strong>Date:</strong> ${data.serviceDate}</p>
+        <p>⏰ <strong>Time:</strong> ${data.serviceTime}</p>
+        <p>📍 <strong>Location:</strong> ${fullLocation}</p>
+        <br>
+        <p>☎️ A member of our team will contact you shortly.</p>
+        <p>📸 Please take a screenshot or save this message.</p>
+      `;
+      modal.classList.remove('hidden');
+      bookingForm.reset();
+
+      // Disable fields again after submission
+      formFields.forEach(el => el.disabled = true);
+      addressInput.disabled = true;
+      extraDetailInput.disabled = true;
+    });
+
+    closeModal.addEventListener('click', () => {
+      modal.classList.add('hidden');
     });
   </script>
 </body>
