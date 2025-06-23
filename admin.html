@@ -11,37 +11,36 @@
 
   <main class="container">
     <h1>Admin Dashboard</h1>
-
     <section class="dashboard-cards">
-      <div class="card">
-        <h2>Bookings</h2>
-        <p>View and manage all active service bookings.</p>
-        <a href="#" class="btn btn-secondary">Manage Bookings</a>
+      <div class="card admin-card">
+        <h2>Booked Jobs</h2>
+        <p>List of upcoming and completed jobs will appear here.</p>
       </div>
-
-      <div class="card">
-        <h2>Mechanics</h2>
-        <p>Assign or update users for each job.</p>
-        <a href="#" class="btn btn-secondary">Manage Users</a>
+      <div class="card admin-card">
+        <h2>Manage Users</h2>
+        <p>Create, edit, and assign mechanics to jobs.</p>
       </div>
-
-      <div class="card">
-        <h2>Inventory</h2>
-        <p>Track parts and tools stock levels.</p>
-        <a href="#" class="btn btn-secondary">Inventory Tools</a>
+      <div class="card admin-card">
+        <h2>Reports & Analytics</h2>
+        <p>View service usage, revenue, and customer data.</p>
       </div>
     </section>
   </main>
 
   <script>
-    // Load shared header
-    fetch('/shared/header.html')
+    fetch('shared/header.html')
       .then(res => res.text())
       .then(data => {
         document.getElementById('siteHeader').innerHTML = data;
-        document.getElementById('navToggle').addEventListener('click', () => {
-          document.getElementById('navMenu').classList.toggle('show');
-        });
+        setTimeout(() => {
+          const toggle = document.getElementById('navToggle');
+          const menu = document.getElementById('navMenu');
+          if (toggle && menu) {
+            toggle.addEventListener('click', () => {
+              menu.classList.toggle('show');
+            });
+          }
+        }, 0);
       });
   </script>
 </body>
