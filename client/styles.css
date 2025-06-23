@@ -84,3 +84,70 @@ button:hover {
 .gps-label:hover {
   background-color: #e65a00; /* slightly darker orange on hover */
 }
+
+/* ===============================
+   Header Navigation (site-wide)
+================================= */
+.navbar {
+  background-color: var(--hi-vis-orange);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+}
+
+.nav-brand {
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+
+.nav-toggle {
+  font-size: 1.5rem;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  display: none;
+}
+
+.nav-menu {
+  display: flex;
+  gap: 1rem;
+}
+
+.nav-menu a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  transition: opacity 0.2s;
+}
+
+.nav-menu a:hover,
+.nav-menu a.active {
+  opacity: 0.8;
+}
+
+@media (max-width: 768px) {
+  .nav-toggle {
+    display: block;
+  }
+
+  .nav-menu {
+    display: none;
+    flex-direction: column;
+    background-color: var(--hi-vis-orange);
+    position: absolute;
+    top: 60px;
+    left: 0;
+    right: 0;
+    padding: 1rem;
+  }
+
+  .nav-menu.show {
+    display: flex;
+  }
+}
