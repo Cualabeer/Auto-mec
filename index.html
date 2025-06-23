@@ -2,66 +2,68 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Auto-Mec – Trusted Mobile Mechanic</title>
-  <link rel="stylesheet" href="../styles.css" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Auto-mec | Mobile Mechanic</title>
+  <!-- Link to external CSS -->
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div id="siteHeader"></div>
 
-  <main class="card-wrapper">
-    <section class="card card-hero">
-      <h1>Need a Mobile Mechanic?</h1>
-      <p>We come to your home, work or roadside – fast and affordable.</p>
-      <a href="client/booking-form.html" class="btn btn-primary">📲 Book Now</a>
+  <!-- Site-wide header with brand and mobile menu toggle -->
+  <header>
+    <h1>Auto-mec</h1>
+
+    <!-- Hamburger button for small screens -->
+    <button id="navToggle" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+
+    <!-- Dropdown menu hidden by default -->
+    <nav id="navMenu" aria-hidden="true">
+      <a href="index.html">Home</a>
+      <a href="booking-form.html">Book</a>
+      <a href="admin.html">Admin</a>
+    </nav>
+  </header>
+
+  <!-- Main content wrapper -->
+  <main class="container">
+
+    <!-- Hero / Callout section -->
+    <section class="section hero">
+      <h2>Fast Mobile Mechanic</h2>
+      <p>Get roadside help or repairs fast. We come to you.</p>
+      <a href="booking-form.html" class="btn">Book Now</a>
     </section>
-    <section class="card card-step">
-      <div class="step-number">1</div>
-      <h2>Choose a Service</h2>
-      <p>Battery, jump start, diagnostics, brakes & more.</p>
+
+    <!-- How it works list -->
+    <section class="section">
+      <h2>How It Works</h2>
+      <ol>
+        <li><strong>1.</strong> Use our GPS-powered booking form</li>
+        <li><strong>2.</strong> We come to you</li>
+        <li><strong>3.</strong> You’re back on the road</li>
+      </ol>
     </section>
-    <section class="card card-step">
-      <div class="step-number">2</div>
-      <h2>Tell Us Where</h2>
-      <p>Use GPS or enter your location manually.</p>
-    </section>
-    <section class="card card-step">
-      <div class="step-number">3</div>
-      <h2>We Come to You</h2>
-      <p>On-site repair or inspection with pro tools.</p>
-    </section>
-    <section class="card card-trust">
-      <h2>Why Choose Auto-Mec?</h2>
+
+    <!-- Service list -->
+    <section class="section">
+      <h2>Services</h2>
       <ul>
-        <li>✔ Fully Qualified & Insured</li>
-        <li>✔ Fast, Same-Day Service</li>
-        <li>✔ Clear Pricing, No Surprises</li>
-        <li>✔ 5★ Rated in Your Area</li>
+        <li>Emergency Breakdown</li>
+        <li>Battery & Jumpstart</li>
+        <li>Diagnostics & Repairs</li>
       </ul>
     </section>
-    <section class="card card-cta">
-      <h2>Book in Seconds</h2>
-      <p>Fast mobile repairs from a trusted local mechanic.</p>
-      <a href="client/booking-form.html" class="btn btn-primary">🚗 Book a Mechanic</a>
+
+    <!-- Repeated CTA -->
+    <section class="section">
+      <a href="booking-form.html" class="btn large">Start Booking</a>
     </section>
+
   </main>
 
-  <script>
-    fetch('shared/header.html')
-      .then(res => res.text())
-      .then(data => {
-        document.getElementById('siteHeader').innerHTML = data;
-        setTimeout(() => {
-          const toggle = document.getElementById('navToggle');
-          const menu = document.getElementById('navMenu');
-          if (toggle && menu) {
-            toggle.addEventListener('click', () => {
-              menu.classList.toggle('show');
-            });
-          }
-        }, 0);
-      });
-  </script>
+  <!-- JavaScript file for interactivity -->
+  <script src="script.js"></script>
 </body>
 </html>
