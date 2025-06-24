@@ -1,4 +1,6 @@
-/* === Global Reset & Base === */
+/* ===== Global Styles ===== */
+
+/* Reset and base */
 *,
 *::before,
 *::after {
@@ -8,316 +10,220 @@
 body {
   margin: 0;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: #fff;
-  color: #222;
-  line-height: 1.4;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-tap-highlight-color: transparent;
-}
-
-/* === Container === */
-.container {
-  max-width: 480px;
-  margin: 0 auto;
-  padding: 1rem 1.5rem 3rem;
-}
-
-/* === Header === */
-.header {
-  background: #ff6f00; /* Hi-vis orange */
+  background: linear-gradient(135deg, #003366 0%, #006699 100%);
   color: #fff;
-  font-weight: 900;
-  font-size: 1.5rem;
-  padding: 1rem 1.5rem;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header */
+.header {
+  background: #ff6f00;
+  color: #000;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 1rem 1.5rem;
+  font-weight: 900;
+  font-size: 1.5rem;
   position: sticky;
   top: 0;
-  z-index: 1000;
-  user-select: none;
+  z-index: 999;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.3);
 }
 
 .menu-button {
-  font-size: 1.6rem;
+  font-size: 2rem;
   cursor: pointer;
   user-select: none;
+  color: #000;
 }
 
 .dropdown {
   display: none;
+  flex-direction: column;
+  background: #ff6f00;
   position: absolute;
-  top: 3.6rem;
+  top: 58px;
   right: 1.5rem;
-  background: #ffb732; /* mango yellow */
   border-radius: 6px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.25);
-  padding: 0.5rem 0;
-  min-width: 140px;
-  z-index: 1100;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  min-width: 150px;
+  z-index: 9999;
 }
 
 .dropdown.open {
-  display: block;
+  display: flex;
 }
 
 .dropdown a {
-  display: block;
+  color: #000;
   padding: 0.75rem 1rem;
-  color: #222;
-  font-weight: 700;
   text-decoration: none;
-  transition: background 0.25s ease;
+  font-weight: 700;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+  transition: background 0.3s ease;
+}
+
+.dropdown a:last-child {
+  border-bottom: none;
 }
 
 .dropdown a:hover,
 .dropdown a:focus {
-  background: #d84315; /* darker orange */
-  color: #fff;
+  background: #ffa726;
   outline: none;
 }
 
-/* === Headings === */
+/* Container */
+.container {
+  flex-grow: 1;
+  padding: 1rem;
+  max-width: 480px;
+  margin: 0 auto;
+  background: rgba(255 255 255 / 0.1);
+  border-radius: 10px;
+  box-shadow: 0 8px 16px rgb(255 111 0 / 0.4);
+}
+
+/* Headings */
 h2 {
   font-weight: 900;
-  color: #d84315;
-  margin-top: 1.5rem;
+  font-size: 2rem;
   margin-bottom: 1rem;
-  font-size: 1.8rem;
   text-align: center;
+  color: #fff4e5;
+  text-shadow: 0 0 6px #ffa726;
 }
 
-/* === Quick Book Buttons === */
-.quick-book {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  margin-bottom: 2rem;
-}
-
-.quick-book button {
-  background: #ffb732; /* mango yellow */
-  color: #000;
-  font-weight: 800;
-  font-size: 1.2rem;
-  padding: 18px 0;
-  border: none;
-  border-radius: 10px;
-  width: 100%;
-  cursor: pointer;
-  box-shadow: 0 3px 5px rgba(255,183,50,0.6);
-  transition: background 0.3s ease;
-  user-select: none;
-}
-
-.quick-book button:hover,
-.quick-book button:focus {
-  background: #d07a00;
-  color: #fff;
-  outline: none;
-}
-
-/* === Forms === */
-form {
-  background: #fff;
-  padding: 1.5rem 1.5rem 2rem;
-  border-radius: 12px;
-  box-shadow: 0 0 15px rgba(0,0,0,0.1);
-}
-
+/* Form elements */
 form label {
   display: block;
-  margin-top: 1rem;
+  margin-bottom: 0.3rem;
   font-weight: 700;
   font-size: 1rem;
-  color: #d84315;
+  color: #ffd180;
 }
 
-form input[type="text"],
-form input[type="tel"],
-form input[type="datetime-local"],
-form select,
-form textarea {
+input[type="text"],
+input[type="tel"],
+input[type="datetime-local"],
+select,
+textarea {
   width: 100%;
-  padding: 14px 12px;
-  font-size: 1rem;
-  margin-top: 0.3rem;
-  border: 2px solid #ccc;
-  border-radius: 8px;
-  transition: border-color 0.3s ease;
+  padding: 16px 20px;
+  margin-bottom: 1rem;
+  border: none;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  background: #fff4e5;
+  color: #3e2723;
+  box-shadow: inset 0 0 6px rgba(0,0,0,0.2);
+  transition: box-shadow 0.3s ease;
   resize: vertical;
 }
 
-form input[readonly] {
-  background-color: #f5f5f5;
-  color: #777;
-}
-
-form input:focus,
-form select:focus,
-form textarea:focus {
-  border-color: #ff6f00;
+input[type="text"]:focus,
+input[type="tel"]:focus,
+input[type="datetime-local"]:focus,
+select:focus,
+textarea:focus {
   outline: none;
-  background-color: #fff8e1;
+  box-shadow: 0 0 12px #ff6f00;
+  background: #fff8e1;
 }
 
-form textarea {
+textarea {
   min-height: 80px;
 }
 
-form button[type="submit"],
-form button.full-button {
-  margin-top: 1.5rem;
-  background: #ffb732;
+/* Buttons */
+button,
+.emergency-btn {
+  background: #ff6f00;
+  color: #000;
+  font-weight: 900;
+  font-size: 1.3rem;
   border: none;
-  font-weight: 800;
-  font-size: 1.25rem;
-  padding: 1rem 0;
   border-radius: 10px;
+  padding: 20px 0;
   width: 100%;
   cursor: pointer;
-  box-shadow: 0 3px 5px rgba(255,183,50,0.7);
-  user-select: none;
   transition: background 0.3s ease;
+  box-shadow: 0 6px 12px rgb(255 111 0 / 0.7);
+  user-select: none;
 }
 
-form button[type="submit"]:hover,
-form button.full-button:hover {
-  background: #d07a00;
-  color: #fff;
+button:hover,
+.emergency-btn:hover,
+button:focus,
+.emergency-btn:focus {
+  background: #cc5600;
   outline: none;
 }
 
-.cancel-button {
-  background: #eee;
-  color: #444;
-  font-weight: 700;
-  margin-top: 0.75rem;
-  box-shadow: none;
-}
-
-.cancel-button:hover,
-.cancel-button:focus {
-  background: #ccc;
-  outline: none;
-}
-
-/* === Confirmation message === */
-#confirmation {
+/* Estimate Confirmation Box */
+#estimateConfirm {
   margin-top: 1.5rem;
-  background: #d4edda;
-  border: 1px solid #c3e6cb;
-  color: #155724;
-  padding: 1rem 1.5rem;
+  padding: 1rem;
+  background: #fff3cd;
+  border: 2px solid #ffb732;
   border-radius: 8px;
-  font-weight: 700;
+  font-weight: 900;
+  font-size: 1.3rem;
+  color: #d84315;
   text-align: center;
 }
 
-/* === Disclaimer Popup === */
-.disclaimer {
-  background: #fff3cd;
-  border: 1px solid #ffeeba;
-  color: #856404;
-  padding: 1rem 1.5rem;
-  margin-top: 1.5rem;
-  border-radius: 8px;
-  font-weight: 600;
-}
-
-/* === Highlight Animation for Dropdown Sync === */
-.highlight {
-  border: 2px solid #ff6f00 !important;
-  background-color: #fff8e1 !important;
-  transition: background-color 1.5s ease;
-}
-
-/* === Modal Styles === */
-.modal {
-  display: none; 
-  position: fixed;
-  z-index: 9999;
-  left: 0; top: 0;
-  width: 100%; height: 100%;
-  overflow: auto;
-  background-color: rgba(0,0,0,0.6);
-  justify-content: center;
-  align-items: center;
-}
-
-.modal.open {
-  display: flex;
-}
-
-.modal-content {
-  background: #fff;
-  padding: 2rem;
-  border-radius: 12px;
-  max-width: 400px;
-  width: 90%;
-  box-shadow: 0 0 20px rgba(0,0,0,0.3);
-  position: relative;
-}
-
-.modal-content h3 {
-  margin-top: 0;
-  color: #d84315;
-}
-
-.modal-content label {
-  display: block;
-  margin-top: 1rem;
-  font-weight: 700;
-}
-
-.modal-content input, 
-.modal-content textarea {
-  width: 100%;
-  padding: 0.75rem;
-  margin-top: 0.3rem;
-  border-radius: 6px;
-  border: 2px solid #ccc;
-  font-size: 1rem;
-}
-
-.modal-content button {
-  margin-top: 1.5rem;
-  width: 100%;
-  padding: 1rem;
-  background: #ffb732;
-  border: none;
-  font-weight: 700;
-  font-size: 1.1rem;
-  border-radius: 8px;
+/* Confirmation checkbox label */
+label[for="confirmEstimate"] {
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  font-weight: 700;
+  margin-top: 1rem;
+  font-size: 1.1rem;
+  color: #fff4e5;
 }
 
-.modal-content .cancel-button {
-  background: #eee;
-  color: #555;
-  margin-top: 0.5rem;
+input[type="checkbox"] {
+  margin-right: 0.6rem;
+  width: 22px;
+  height: 22px;
 }
 
-/* === Responsive: Mobile buttons & text === */
+/* Info button */
+#disclaimerBtn {
+  background: transparent;
+  border: none;
+  font-size: 1.8rem;
+  color: #ffd180;
+  cursor: pointer;
+  user-select: none;
+}
+
+/* Responsive tweaks */
 @media (max-width: 480px) {
-  body {
-    font-size: 16px;
+  .container {
+    padding: 0.8rem;
+    max-width: 100%;
   }
-
-  form label, 
-  .quick-book button,
-  form input, 
-  form select, 
-  form textarea,
-  form button[type="submit"],
-  .modal-content button {
-    font-size: 1.15rem;
+  h2 {
+    font-size: 1.7rem;
   }
-
-  .quick-book button,
-  form button[type="submit"],
-  .modal-content button {
+  button,
+  .emergency-btn {
     padding: 20px 0;
+    font-size: 1.2rem;
+  }
+  input[type="text"],
+  input[type="tel"],
+  input[type="datetime-local"],
+  select,
+  textarea {
+    padding: 16px 16px;
+    font-size: 1rem;
   }
 }
