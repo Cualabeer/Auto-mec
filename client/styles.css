@@ -147,3 +147,56 @@ form textarea {
     font-size: 1.1em;
   }
 }
+/* Full-page scroll slides (mobile-first) */
+.sliding-home {
+  scroll-snap-type: y mandatory;
+  overflow-y: scroll;
+  height: 100vh;
+  scroll-behavior: smooth;
+}
+
+.slide {
+  height: 100vh;
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  text-align: center;
+  background: #ffb732;
+  color: #222;
+  font-weight: 800;
+}
+
+.slide1 { background: linear-gradient(135deg, #ffb732 30%, #ffe082); }
+.slide2 { background: linear-gradient(135deg, #ffa500 30%, #ffd54f); }
+.slide3 { background: linear-gradient(135deg, #ff8c00 30%, #ffc107); }
+
+.slide h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.slide p {
+  font-size: 1.2rem;
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+.book-link {
+  display: inline-block;
+  margin-top: 2rem;
+  padding: 1rem 2rem;
+  background: #fff;
+  color: #ff8c00;
+  font-weight: 900;
+  border-radius: 8px;
+  text-decoration: none;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  transition: background-color 0.3s ease;
+}
+
+.book-link:hover {
+  background: #ffe0b2;
+}
