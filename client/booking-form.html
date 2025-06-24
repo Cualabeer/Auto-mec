@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Auto-Mec | Booking Form</title>
-  <link rel="stylesheet" href="../shared/global.css" />
+  <title>Auto-Mec | Book Service</title>
+  <link rel="stylesheet" href="shared/global.css" />
   <script defer src="shared/script.js"></script>
 </head>
 <body>
 
-  <!-- Sticky Header with Menu -->
+  <!-- Header with dropdown -->
   <header class="header">
     <span>Auto-Mec</span>
     <span class="menu-button" onclick="document.querySelector('.dropdown').classList.toggle('open')">☰</span>
@@ -20,18 +20,40 @@
     </nav>
   </header>
 
-  <!-- Main Form Container -->
   <main class="container">
-    <h2>Book Mobile Mechanic</h2>
+    <h2>Book a Mobile Mechanic</h2>
 
-    <!-- Quick Book Buttons -->
+    <!-- Emergency Quick Book Buttons -->
     <div class="quick-book">
       <button data-quick-service="Jumpstart">⚡ Emergency Jumpstart</button>
-      <button data-quick-service="Tyre Change">🔧 Tyre Replacement</button>
+      <button data-quick-service="Tyre Replacement">🔧 Tyre Replacement</button>
       <button data-quick-service="Battery Fitting">🔋 Battery Fitting</button>
     </div>
 
-    <!-- Booking Form -->
+    <!-- Emergency Booking Panel -->
+    <div id="quickBookingPanel" class="quick-panel hidden">
+      <h3>Emergency Booking</h3>
+      <form id="quickBookingForm">
+        <input type="hidden" id="quickService" name="service" />
+
+        <label for="quickName">Full Name</label>
+        <input type="text" id="quickName" name="name" required placeholder="Your name" />
+
+        <label for="quickPhone">Phone</label>
+        <input type="tel" id="quickPhone" name="phone" required placeholder="e.g. 07712345678" />
+
+        <label for="quickLocation">Location (GPS)</label>
+        <input type="text" id="quickLocation" name="location" readonly required />
+
+        <label for="quickNotes">Notes</label>
+        <textarea id="quickNotes" name="notes" placeholder="Describe issue or access info..."></textarea>
+
+        <button type="submit" class="full-button">✅ Confirm Rescue</button>
+        <button type="button" class="cancel-button" onclick="closeQuickBooking()">Cancel</button>
+      </form>
+    </div>
+
+    <!-- Full Booking Form -->
     <form id="bookingForm">
       <label for="name">Full Name</label>
       <input type="text" id="name" name="name" required placeholder="Your full name" />
@@ -61,24 +83,20 @@
       <label for="datetime">Preferred Date & Time</label>
       <input type="datetime-local" id="datetime" name="datetime" required />
 
-      <label for="description">Job Description / Notes</label>
-      <textarea id="description" name="description" placeholder="Any extra info..."></textarea>
+      <label for="description">Job Description</label>
+      <textarea id="description" name="description" placeholder="Anything extra? Tools needed?"></textarea>
 
-      <!-- Disclaimer Toggle -->
       <div style="text-align: right;">
         <button type="button" id="disclaimerBtn" title="Terms">ℹ️</button>
       </div>
 
-      <!-- Submit -->
       <button type="submit">Confirm Booking</button>
     </form>
 
-    <!-- Confirmation Message -->
-    <div id="confirmation" style="display: none;"></div>
+    <div id="confirmation" style="display:none;"></div>
 
-    <!-- Disclaimer Message (hidden by default) -->
     <div id="disclaimerPopup" class="disclaimer hidden">
-      📌 *Disclaimer: Location access is required to provide emergency service. If GPS is not shared, service may be declined.*
+      📌 *Disclaimer: You must allow location access to use this service. If declined, we may not be able to assist you.*
     </div>
   </main>
 
