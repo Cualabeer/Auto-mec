@@ -1,321 +1,149 @@
-/* ===============================
-   Hi-Vis Colour Scheme
-================================= */
-:root {
-  --hi-vis-orange: #FF6700;
-  --mango-yellow: #FFC324;
-  --neon-green: #39FF14;
-  --alert-red: #FF3B3B;
-  --dark-text: #222222;
-  --white: #FFFFFF;
-  --light-gray: #F5F5F5;
-}
-
-/* ===============================
-   Reset & Base Styles
-================================= */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+/* ===========================
+   GLOBAL STYLESHEET - BOLD HAZARD STRIPES
+   =========================== */
 
 body {
-  font-family: "Segoe UI", sans-serif;
-  font-size: 16px;
-  line-height: 1.6;
-  background-color: var(--white);
-  color: var(--dark-text);
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  /* Bold diagonal hazard stripes */
+  background: repeating-linear-gradient(
+    45deg,
+    #ff6600,
+    #ff6600 20px,
+    #000000 20px,
+    #000000 40px
+  );
+  color: #fff;
+  padding-bottom: 4rem;
 }
 
-a {
-  color: var(--hi-vis-orange);
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
-}
-
-/* ===============================
-   Container
-================================= */
-.container {
-  padding: 1.5rem;
-  margin-top: 4.5rem; /* for sticky header */
-  max-width: 700px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-/* ===============================
-   Buttons
-================================= */
-.btn {
-  display: inline-block;
+/* Header bar (sticky top) */
+.header {
+  background: #ff9900;
+  color: black;
+  padding: 1em;
   text-align: center;
-  font-weight: bold;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: 0.2s ease;
-}
-
-.btn-primary {
-  background-color: var(--hi-vis-orange);
-  color: var(--white);
-  padding: 1rem;
-  font-size: 1.1rem;
-  width: 100%;
-}
-
-.btn-primary:hover {
-  background-color: #e95f00;
-}
-
-.btn-secondary {
-  background-color: var(--mango-yellow);
-  color: var(--dark-text);
-  padding: 0.8rem 1rem;
-}
-
-.btn-secondary:hover {
-  background-color: #f8b500;
-}
-
-/* ===============================
-   Header Navigation
-================================= */
-.navbar {
-  background-color: var(--hi-vis-orange);
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1rem;
   position: sticky;
   top: 0;
-  z-index: 999;
-}
-
-.nav-brand {
-  font-size: 1.4rem;
+  z-index: 100;
   font-weight: bold;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
 }
 
-.nav-toggle {
-  font-size: 1.5rem;
-  background: none;
-  border: none;
-  color: white;
-  cursor: pointer;
-  display: none;
-}
-
-.nav-menu {
-  display: flex;
-  gap: 1rem;
-}
-
-.nav-menu a {
-  color: white;
-  text-decoration: none;
-  font-weight: bold;
-  transition: opacity 0.2s;
-}
-
-.nav-menu a:hover,
-.nav-menu a.active {
-  opacity: 0.8;
-}
-
-@media (max-width: 768px) {
-  .nav-toggle {
-    display: block;
-  }
-
-  .nav-menu {
-    display: none;
-    flex-direction: column;
-    background-color: var(--hi-vis-orange);
-    position: absolute;
-    top: 60px;
-    left: 0;
-    right: 0;
-    padding: 1rem;
-  }
-
-  .nav-menu.show {
-    display: flex;
-  }
-}
-
-/* ===============================
-   Homepage Sections
-================================= */
-.hero {
-  background-color: var(--mango-yellow);
-  padding: 2rem 1rem;
-  text-align: center;
-  border-radius: 10px;
-  margin-bottom: 2rem;
-}
-
-.hero h1 {
-  font-size: 2rem;
-  color: var(--dark-text);
-  margin-bottom: 0.5rem;
-}
-
-.hero p {
-  font-size: 1.2rem;
-  margin-bottom: 1.5rem;
-  color: #333;
-}
-
-.badges {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 0.8rem;
-  margin-bottom: 2rem;
-}
-
-.badge {
-  background: var(--hi-vis-orange);
-  color: white;
-  padding: 0.6rem 1rem;
-  border-radius: 999px;
-  font-weight: bold;
-  font-size: 0.9rem;
-}
-
-.trust h2 {
-  margin-bottom: 1rem;
-}
-
-.trust ul {
-  list-style: none;
-  padding-left: 0;
-}
-
-.trust ul li {
-  margin-bottom: 0.8rem;
-  padding-left: 1.2rem;
-  position: relative;
-}
-
-.trust ul li::before {
-  content: "✔";
-  color: var(--hi-vis-orange);
+.menu-button {
   position: absolute;
-  left: 0;
+  left: 1em;
+  top: 1em;
+  cursor: pointer;
+  font-size: 1.4em;
+  color: black;
 }
 
-.cta {
-  background: var(--light-gray);
-  padding: 2rem 1rem;
-  text-align: center;
-  border-radius: 10px;
-  margin-top: 2rem;
-}
-
-.cta h2 {
-  margin-bottom: 1rem;
-}
-
-.cta .small {
-  font-size: 0.9rem;
-  margin-top: 1rem;
-}
-
-/* ===============================
-   Booking Form Styles
-================================= */
-form label {
-  display: block;
-  margin: 1rem 0 0.3rem;
-  font-weight: bold;
-}
-
-form input,
-form select,
-form textarea {
-  width: 100%;
-  padding: 0.75rem;
-  font-size: 1rem;
-  border: 2px solid #ccc;
-  border-radius: 5px;
-  box-sizing: border-box;
-}
-
-form textarea {
-  resize: vertical;
-}
-
-#calendar {
-  margin-bottom: 1rem;
-}
-
-.flatpickr-calendar.inline {
-  width: 100% !important;
-}
-
-/* Booking confirmation */
-.confirmation {
-  margin-top: 1rem;
-  padding: 1rem;
-  background: var(--neon-green);
-  color: #000;
-  font-weight: bold;
-  border-radius: 5px;
-}
-
-.hidden {
+.dropdown {
   display: none;
+  background: #ffcc00;
+  text-align: left;
+  padding: 0.5em;
+  color: black;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+.dropdown.open {
+  display: block;
 }
 
-/* ===============================
-   Admin Dashboard
-================================= */
-.dashboard-cards {
-  display: grid;
-  gap: 1.5rem;
-  margin-top: 2rem;
+nav a {
+  display: block;
+  padding: 0.5em;
+  color: black;
+  text-decoration: none;
+  font-weight: 600;
+}
+nav a:hover {
+  background: #ffe066;
 }
 
-.card {
-  background: var(--light-gray);
-  padding: 1rem;
+/* Content wrapper */
+.container {
+  padding: 1em;
+  max-width: 700px;
+  margin: auto;
+  background: rgba(255,255,255,0.9);
+  color: #000;
   border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
 }
 
-.card h2 {
-  margin-bottom: 0.5rem;
-  font-size: 1.2rem;
+/* Section spacing */
+.intro,
+.how-it-works,
+.cta,
+form {
+  margin-bottom: 2rem;
 }
 
-.card p {
-  margin-bottom: 1rem;
+/* Headings */
+h1, h2, h3 {
+  color: #222;
 }
 
-/* ===============================
-   Utility / Misc
-================================= */
-.highlight-text {
-  color: var(--hi-vis-orange);
+/* Inputs, selects, textarea, buttons */
+input, select, textarea, button {
+  width: 100%;
+  padding: 1em;
+  margin: 0.5em 0;
+  font-size: 1em;
+  box-sizing: border-box;
+  border: 2px solid #ff6600;
+  border-radius: 4px;
+  font-weight: 600;
 }
 
-.buttons {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  margin-top: 2rem;
+/* Buttons */
+button,
+.btn {
+  background: #ff6600;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 4px;
+  padding: 1em;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  display: block;
+  width: 100%;
+  margin-top: 1rem;
+  box-shadow: 0 3px 7px rgba(255,102,0,0.7);
+  transition: background-color 0.3s ease;
 }
 
-@media (min-width: 600px) {
-  .buttons {
-    flex-direction: row;
+button:hover,
+.btn:hover {
+  background: #e65500;
+}
+
+/* Confirmation message */
+#confirmation {
+  background: #ccffcc;
+  border: 1px solid green;
+  padding: 1em;
+  margin-top: 1em;
+  text-align: center;
+  color: #004400;
+  border-radius: 4px;
+}
+
+/* Booking form specific */
+form textarea {
+  min-height: 100px;
+}
+
+/* Responsive text scaling */
+@media (max-width: 600px) {
+  body {
+    font-size: 1em;
+  }
+  .header {
+    font-size: 1.1em;
   }
 }
