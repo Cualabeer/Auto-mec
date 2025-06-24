@@ -2,41 +2,33 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Auto-Mec - Mobile Mechanic</title>
-  <link rel="stylesheet" href="../shared/global.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Auto-Mec | Mobile Mechanic</title>
+  <link rel="stylesheet" href="shared/global.css" />
 </head>
-<body>
-  <header class="header">
-    <div class="menu-button" onclick="toggleMenu()">☰</div>
-    <h1>Auto-Mec</h1>
-    <nav id="menu" class="dropdown">
-      <a href="index.html">Home</a>
-      <a href="booking-form.html">Book Service</a>
-      <a href="admin.html">Admin</a>
-    </nav>
-  </header>
+<body class="sliding-home">
 
-  <main class="container">
-    <section class="intro">
-      <h2>Your Roadside Mechanic Service</h2>
-      <p>We're on call for emergency roadside repair, home diagnostics, and mobile mechanic bookings — wherever you are.</p>
-    </section>
+  <section class="slide slide1">
+    <div class="content">
+      <h1>1. Fast Mobile Help</h1>
+      <p>Breakdown? Puncture? We come to you – wherever you are.</p>
+    </div>
+  </section>
 
-    <section class="how-it-works">
-      <h3>How It Works</h3>
-      <ol>
-        <li><strong>Step 1:</strong> Choose a service</li>
-        <li><strong>Step 2:</strong> Share your GPS or address</li>
-        <li><strong>Step 3:</strong> Get help on the way</li>
-      </ol>
-    </section>
+  <section class="slide slide2">
+    <div class="content">
+      <h1>2. Trusted Technicians</h1>
+      <p>Experienced mechanics with emergency tools and diagnostics.</p>
+    </div>
+  </section>
 
-    <section class="cta">
-      <a class="btn full-width" href="booking-form.html">📍 Book a Mechanic</a>
-    </section>
-  </main>
+  <section class="slide slide3">
+    <div class="content">
+      <h1>3. Ready to Book?</h1>
+      <p>One tap and we’re on the way.</p>
+      <a href="booking-form.html" class="book-link">Book Now</a>
+    </div>
+  </section>
 
-  <script src="script.js"></script>
 </body>
 </html>
