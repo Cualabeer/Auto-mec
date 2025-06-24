@@ -5,10 +5,10 @@ const disclaimerPopup = document.getElementById('disclaimerPopup');
 const bookingForm = document.getElementById('bookingForm');
 
 const quickButtons = document.querySelectorAll('[data-quick-service]');
-const quickPanel = document.getElementById('quickBookingPanel');
+const quickModal = document.getElementById('quickBookingModal');
 const quickForm = document.getElementById('quickBookingForm');
 
-// ========== Full Booking GPS ==========
+// === Full Booking GPS autofill ===
 function getLocation() {
   if (!navigator.geolocation) {
     alert("Your browser doesn't support GPS. Please enter manually.");
@@ -29,7 +29,7 @@ function getLocation() {
   );
 }
 
-// ========== Booking Form ==========
+// === Booking form submit handler ===
 if (bookingForm) {
   bookingForm.addEventListener('submit', function (e) {
     e.preventDefault();
@@ -42,50 +42,56 @@ if (bookingForm) {
   });
 }
 
-// ========== Disclaimer Toggle ==========
+// === Disclaimer toggle ===
 if (disclaimerBtn && disclaimerPopup) {
   disclaimerBtn.addEventListener('click', () => {
     disclaimerPopup.classList.toggle('hidden');
   });
 }
 
-// ========== Emergency Quick Book ==========
-function openQuickBooking(serviceName) {
+// === Modal open/close for quick booking ===
+function openQuickBookingModal(serviceName) {
   document.getElementById('quickService').value = serviceName;
 
-  // Also select in full form dropdown
+  // Autofill GPS for modal
+  getQuickLocationModal();
+
+  quickModal.classList.add('open');
+
+  // Also update main service dropdown visually
   const serviceDropdown = document.getElementById('service');
   if (serviceDropdown) {
     serviceDropdown.value = serviceName;
     serviceDropdown.classList.add('highlight');
     setTimeout(() => serviceDropdown.classList.remove('highlight'), 1500);
   }
-
-  quickPanel.classList.remove('hidden');
-  getQuickLocation();
 }
 
-function closeQuickBooking() {
-  quickPanel.classList.add('hidden');
+function closeQuickBookingModal() {
+  quickModal.classList.remove('open');
+  quickForm.reset();
 }
 
+// === Quick booking button handlers ===
 quickButtons.forEach(btn => {
   btn.addEventListener('click', () => {
     const service = btn.getAttribute('data-quick-service');
-    openQuickBooking(service);
+    openQuickBookingModal(service);
   });
 });
 
+// === Quick booking form submit ===
 quickForm.addEventListener('submit', function (e) {
   e.preventDefault();
   const name = document.getElementById('quickName').value;
   const phone = document.getElementById('quickPhone').value;
+
   alert(`🚨 Emergency booking for ${name} confirmed. We'll call ${phone}.`);
-  closeQuickBooking();
+  closeQuickBookingModal();
 });
 
-// ========== Quick Book GPS ==========
-function getQuickLocation() {
+// === Quick booking modal GPS autofill ===
+function getQuickLocationModal() {
   if (!navigator.geolocation) {
     alert("Enable GPS to continue.");
     return;
@@ -103,7 +109,7 @@ function getQuickLocation() {
   );
 }
 
-// ========== Init ==========
+// === Initialize GPS for main form on load ===
 document.addEventListener('DOMContentLoaded', () => {
   if (locationField && locationField.hasAttribute('readonly')) {
     getLocation();
