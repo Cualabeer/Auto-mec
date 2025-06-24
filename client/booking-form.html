@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Auto-mec Booking Form</title>
-  <link rel="stylesheet" href="../shared/global.css" />
+  <link rel="stylesheet" href="shared/global.css" />
   <style>
     /* Emergency buttons container */
     #emergencyButtons {
@@ -40,7 +40,27 @@
       margin: 0 auto;
       padding: 1rem;
     }
+
+    /* Confirmation Section */
+    #confirmationSection {
+      display: none;
+      text-align: center;
+      margin-top: 2rem;
+      background: #fff3cd;
+      border: 2px solid #ffb732;
+      padding: 1rem;
+      border-radius: 8px;
+      color: #d84315;
+      font-weight: 900;
+    }
+
+    #confirmationSection svg {
+      margin: 1rem 0;
+    }
   </style>
+
+  <!-- JsBarcode CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
 </head>
 <body>
   <!-- Header with Hamburger Menu -->
@@ -117,6 +137,14 @@
 
       <button type="submit" id="submitBtn" disabled style="margin-top: 1rem;">Confirm Booking</button>
     </form>
+
+    <!-- Confirmation with barcode -->
+    <section id="confirmationSection" aria-live="polite" aria-atomic="true">
+      <h3>Your Booking is Confirmed!</h3>
+      <p>Booking ID: <span id="bookingId"></span></p>
+      <svg id="barcode"></svg>
+      <p>Please save or screenshot this code to present when our mechanic arrives.</p>
+    </section>
   </main>
 
   <script>
@@ -144,7 +172,7 @@
           return data.display_name;
         }
       } catch {
-        // ignore errors, fallback below
+        // fallback below
       }
       return `Lat: ${lat.toFixed(5)}, Lon: ${lon.toFixed(5)}`;
     }
@@ -222,7 +250,6 @@
     // Emergency buttons fill form & set service + datetime to now
     const emergencyButtons = document.querySelectorAll('.emergency-btn');
     const nameInput = document.getElementById('name');
-    const phoneInput = document.getElementById('phone');
     const datetimeInput = document.getElementById('datetime');
     const bookingForm = document.getElementById('bookingForm');
 
@@ -235,7 +262,7 @@
 
         // Set datetime to current datetime local
         const now = new Date();
-        const tzoffset = now.getTimezoneOffset() * 60000; //offset in milliseconds
+        const tzoffset = now.getTimezoneOffset() * 60000;
         const localISOTime = (new Date(now - tzoffset)).toISOString().slice(0,16);
         datetimeInput.value = localISOTime;
 
@@ -250,17 +277,39 @@
       });
     });
 
-    // Form submit demo handler
+    // Confirmation section and barcode
+    const confirmationSection = document.getElementById('confirmationSection');
+    const bookingIdSpan = document.getElementById('bookingId');
+
     bookingForm.addEventListener('submit', e => {
       e.preventDefault();
-      alert('Booking submitted! Thank you.');
-      bookingForm.reset();
-      estimateConfirm.textContent = "Please select a service to see the estimated cost.";
-      confirmCheckbox.disabled = true;
-      confirmCheckbox.checked = false;
-      submitBtn.disabled = true;
-      setLocation();
+
+      // Generate unique booking ID (timestamp + random)
+      const bookingCode = 'AM-' + Date.now() + '-' + Math.floor(Math.random() * 10000);
+
+      // Show confirmation section
+      bookingIdSpan.textContent = bookingCode;
+      confirmationSection.style.display = 'block';
+
+      // Generate barcode with JsBarcode
+      JsBarcode("#barcode", bookingCode, {
+        format: "CODE128",
+        lineColor: "#d84315",
+        width: 2,
+        height: 70,
+        displayValue: true,
+        fontSize: 18,
+      });
+
+      // Hide form to avoid duplicate submissions
+      bookingForm.style.display = 'none';
+
+      alert('Booking submitted! Your booking ID is: ' + bookingCode);
+
+      // TODO: Send booking data + bookingCode to backend here if needed
     });
+
+    // Disclaimer modal or info popup can be added here (not shown for brevity)
 
   </script>
 </body>
