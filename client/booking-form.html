@@ -2,65 +2,85 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Book a Service - Auto-Mec</title>
-  <link rel="stylesheet" href="../shared/global.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Auto-Mec | Booking Form</title>
+  <link rel="stylesheet" href="shared/global.css" />
+  <script defer src="shared/script.js"></script>
 </head>
 <body>
+
+  <!-- Sticky Header with Menu -->
   <header class="header">
-    <div class="menu-button" onclick="toggleMenu()">☰</div>
-    <h1>Auto-Mec</h1>
-    <nav id="menu" class="dropdown">
+    <span>Auto-Mec</span>
+    <span class="menu-button" onclick="document.querySelector('.dropdown').classList.toggle('open')">☰</span>
+    <nav class="dropdown">
       <a href="index.html">Home</a>
-      <a href="booking-form.html">Book Service</a>
+      <a href="booking-form.html">Book</a>
       <a href="admin.html">Admin</a>
     </nav>
   </header>
 
+  <!-- Main Form Container -->
   <main class="container">
-    <h2>Service Booking</h2>
+    <h2>Book Mobile Mechanic</h2>
 
+    <!-- Quick Book Buttons -->
+    <div class="quick-book">
+      <button data-quick-service="Jumpstart">⚡ Emergency Jumpstart</button>
+      <button data-quick-service="Tyre Change">🔧 Tyre Replacement</button>
+      <button data-quick-service="Battery Fitting">🔋 Battery Fitting</button>
+    </div>
+
+    <!-- Booking Form -->
     <form id="bookingForm">
-      <button type="button" id="locateBtn">📍 Use My GPS</button>
-      <p id="w3-display" style="display:none;"></p>
+      <label for="name">Full Name</label>
+      <input type="text" id="name" name="name" required placeholder="Your full name" />
 
-      <input type="text" name="address" placeholder="Your Road or Area" required />
-      <input type="text" name="houseNumber" placeholder="House Number or Name" required />
-      <input type="tel" name="phone" placeholder="Phone Number" required />
+      <label for="phone">Phone Number</label>
+      <input type="tel" id="phone" name="phone" required placeholder="e.g. 07712345678" />
 
-      <label for="service">Select Service:</label>
-      <select name="service" id="serviceDropdown" required>
-        <option value="">Select Service</option>
-        <option value="Breakdown">Breakdown – from £60</option>
-        <option value="Battery Jump">Battery Jump – £40</option>
-        <option value="Oil Leak">Oil Leak Diagnosis – £70</option>
-        <option value="Flat Tyre">Flat Tyre Repair/Fit – £50</option>
-        <option value="Brake Pads & Discs">Brake Pads & Discs – £100</option>
-        <option value="Oil & Filter Change">Oil & Filter Change – £50</option>
-        <option value="Starter Motor Replacement">Starter Motor Replacement – £90</option>
-        <option value="Battery Replacement">Battery Replacement – £50</option>
-        <option value="Alternator Replacement">Alternator Replacement – £100</option>
-        <option value="Coolant Leak Diagnosis">Coolant Leak Diagnosis – £70</option>
-        <option value="Suspension Inspection & Repair">Suspension Repair – from £90</option>
-        <option value="Full Vehicle Diagnostic">Full Vehicle Diagnostic – £60</option>
-        <option value="DPF / EGR Clean">DPF / EGR Clean – £100</option>
-        <option value="Timing Belt / Chain Inspection">Timing Belt/Chain Inspection – £70</option>
-        <option value="Clutch Inspection">Clutch Inspection – £60</option>
-        <option value="Pre-Purchase Vehicle Check">Pre-Purchase Check – £60</option>
-        <option value="Custom">Custom Service Request</option>
+      <label for="location">Your Location (GPS)</label>
+      <input type="text" id="location" name="location" readonly required />
+
+      <label for="extraAddress">Extra Details</label>
+      <input type="text" id="extraAddress" name="extraAddress" placeholder="House name or number" />
+
+      <label for="service">Select Service</label>
+      <select id="service" name="service" required>
+        <option value="">-- Choose --</option>
+        <option value="Jumpstart">Jumpstart</option>
+        <option value="Battery Fitting">Battery Fitting</option>
+        <option value="Brake Replacement">Brake Replacement</option>
+        <option value="Tyre Replacement">Tyre Replacement</option>
+        <option value="Diagnosis">Vehicle Diagnosis</option>
+        <option value="Oil Change">Oil Change</option>
+        <option value="Suspension">Suspension Work</option>
+        <option value="Other">Other (Add notes)</option>
       </select>
 
-      <div id="priceDisplay" style="margin-top: 0.5em; font-weight: bold;"></div>
+      <label for="datetime">Preferred Date & Time</label>
+      <input type="datetime-local" id="datetime" name="datetime" required />
 
-      <textarea name="notes" id="customJob" placeholder="More details about the job (required if custom)" style="display:none;"></textarea>
+      <label for="description">Job Description / Notes</label>
+      <textarea id="description" name="description" placeholder="Any extra info..."></textarea>
 
-      <input type="datetime-local" name="time" required />
+      <!-- Disclaimer Toggle -->
+      <div style="text-align: right;">
+        <button type="button" id="disclaimerBtn" title="Terms">ℹ️</button>
+      </div>
+
+      <!-- Submit -->
       <button type="submit">Confirm Booking</button>
     </form>
 
-    <p id="confirmation" style="display:none;"></p>
+    <!-- Confirmation Message -->
+    <div id="confirmation" style="display: none;"></div>
+
+    <!-- Disclaimer Message (hidden by default) -->
+    <div id="disclaimerPopup" class="disclaimer hidden">
+      📌 *Disclaimer: Location access is required to provide emergency service. If GPS is not shared, service may be declined.*
+    </div>
   </main>
 
-  <script src="booking.js"></script>
 </body>
 </html>
