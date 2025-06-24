@@ -21,34 +21,43 @@
     <h2>Service Booking</h2>
 
     <form id="bookingForm">
-      <!-- Button to auto-locate the user -->
       <button type="button" id="locateBtn">📍 Use My GPS</button>
-
-      <!-- what3words location (auto-filled in JS) -->
       <p id="w3-display" style="display:none;"></p>
 
-      <!-- Form fields -->
       <input type="text" name="address" placeholder="Your Road or Area" required />
       <input type="text" name="houseNumber" placeholder="House Number or Name" required />
       <input type="tel" name="phone" placeholder="Phone Number" required />
 
-      <select name="service" required>
+      <label for="service">Select Service:</label>
+      <select name="service" id="serviceDropdown" required>
         <option value="">Select Service</option>
-        <option value="Breakdown">Breakdown</option>
-        <option value="Battery Jump">Battery Jump</option>
-        <option value="Oil Leak">Oil Leak</option>
-        <option value="Flat Tyre">Flat Tyre</option>
-        <option value="Diagnostics">Diagnostics</option>
+        <option value="Breakdown">Breakdown – from £60</option>
+        <option value="Battery Jump">Battery Jump – £40</option>
+        <option value="Oil Leak">Oil Leak Diagnosis – £70</option>
+        <option value="Flat Tyre">Flat Tyre Repair/Fit – £50</option>
+        <option value="Brake Pads & Discs">Brake Pads & Discs – £100</option>
+        <option value="Oil & Filter Change">Oil & Filter Change – £50</option>
+        <option value="Starter Motor Replacement">Starter Motor Replacement – £90</option>
+        <option value="Battery Replacement">Battery Replacement – £50</option>
+        <option value="Alternator Replacement">Alternator Replacement – £100</option>
+        <option value="Coolant Leak Diagnosis">Coolant Leak Diagnosis – £70</option>
+        <option value="Suspension Inspection & Repair">Suspension Repair – from £90</option>
+        <option value="Full Vehicle Diagnostic">Full Vehicle Diagnostic – £60</option>
+        <option value="DPF / EGR Clean">DPF / EGR Clean – £100</option>
+        <option value="Timing Belt / Chain Inspection">Timing Belt/Chain Inspection – £70</option>
+        <option value="Clutch Inspection">Clutch Inspection – £60</option>
+        <option value="Pre-Purchase Vehicle Check">Pre-Purchase Check – £60</option>
+        <option value="Custom">Custom Service Request</option>
       </select>
 
+      <div id="priceDisplay" style="margin-top: 0.5em; font-weight: bold;"></div>
+
+      <textarea name="notes" id="customJob" placeholder="More details about the job (required if custom)" style="display:none;"></textarea>
+
       <input type="datetime-local" name="time" required />
-
-      <textarea name="notes" placeholder="More details (optional)"></textarea>
-
       <button type="submit">Confirm Booking</button>
     </form>
 
-    <!-- Confirmation message -->
     <p id="confirmation" style="display:none;"></p>
   </main>
 
