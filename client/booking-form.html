@@ -3,119 +3,28 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Auto-Mec | Booking Form</title>
-  <link rel="stylesheet" href="../shared/global.css" />
-  <script defer src="../shared/script.js"></script>
+  <title>Auto-mec Booking Form</title>
+  <link rel="stylesheet" href="shared/global.css" />
   <style>
-    /* Modal styles */
-    .modal {
-      display: none; 
-      position: fixed;
-      z-index: 9999;
-      left: 0; top: 0;
-      width: 100%; height: 100%;
-      overflow: auto;
-      background-color: rgba(0,0,0,0.6);
-      justify-content: center;
-      align-items: center;
-    }
-    .modal.open {
-      display: flex;
-    }
-    .modal-content {
-      background: #fff;
-      padding: 2rem;
-      border-radius: 12px;
-      max-width: 400px;
-      width: 90%;
-      box-shadow: 0 0 20px rgba(0,0,0,0.3);
-      position: relative;
-    }
-    .modal-content h3 {
-      margin-top: 0;
-      color: #d84315;
-    }
-    .modal-content label {
-      display: block;
-      margin-top: 1rem;
-      font-weight: 700;
-    }
-    .modal-content input, .modal-content textarea {
-      width: 100%;
-      padding: 0.75rem;
-      margin-top: 0.3rem;
-      border-radius: 6px;
-      border: 2px solid #ccc;
-      font-size: 1rem;
-    }
-    .modal-content button {
-      margin-top: 1.5rem;
-      width: 100%;
-      padding: 1rem;
-      background: #ffb732;
-      border: none;
-      font-weight: 700;
-      font-size: 1.1rem;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-    .modal-content .cancel-button {
-      background: #eee;
-      color: #555;
-      margin-top: 0.5rem;
-    }
+    /* Inline tweaks if needed */
   </style>
 </head>
 <body>
-
-  <!-- Header -->
+  <!-- Header with Hamburger Menu -->
   <header class="header">
-    <span>Auto-Mec</span>
-    <span class="menu-button" onclick="document.querySelector('.dropdown').classList.toggle('open')">☰</span>
-    <nav class="dropdown">
+    <div>Auto-mec</div>
+    <div class="menu-button" id="menuBtn" tabindex="0" aria-label="Toggle menu">&#9776;</div>
+    <nav class="dropdown" id="dropdownMenu" aria-label="Main navigation">
       <a href="index.html">Home</a>
-      <a href="booking-form.html">Book</a>
-      <a href="admin.html">Admin</a>
+      <a href="booking-form.html">Book Service</a>
+      <a href="admin.html">Admin Dashboard</a>
+      <a href="contact.html">Contact</a>
     </nav>
   </header>
 
-  <main class="container">
-    <h2>Book a Mobile Mechanic</h2>
-
-    <!-- Emergency Quick Book Buttons -->
-    <div class="quick-book">
-      <button data-quick-service="Jumpstart">⚡ Emergency Jumpstart</button>
-      <button data-quick-service="Tyre Replacement">🔧 Tyre Replacement</button>
-      <button data-quick-service="Battery Fitting">🔋 Battery Fitting</button>
-    </div>
-
-    <!-- Emergency Booking Modal -->
-    <div id="quickBookingModal" class="modal" aria-hidden="true" role="dialog" aria-modal="true">
-      <div class="modal-content" role="document">
-        <h3>Emergency Booking</h3>
-        <form id="quickBookingForm">
-          <input type="hidden" id="quickService" name="service" />
-          
-          <label for="quickName">Full Name</label>
-          <input type="text" id="quickName" name="name" required placeholder="Your name" />
-          
-          <label for="quickPhone">Phone</label>
-          <input type="tel" id="quickPhone" name="phone" required placeholder="e.g. 07712345678" />
-          
-          <label for="quickLocation">Location (GPS)</label>
-          <input type="text" id="quickLocation" name="location" readonly required />
-          
-          <label for="quickNotes">Notes (Optional)</label>
-          <textarea id="quickNotes" name="notes" placeholder="Describe issue or access info..."></textarea>
-          
-          <button type="submit">✅ Confirm Rescue</button>
-          <button type="button" class="cancel-button" onclick="closeQuickBookingModal()">Cancel</button>
-        </form>
-      </div>
-    </div>
-
-    <!-- Full Booking Form -->
-    <form id="bookingForm">
+  <main class="container" role="main">
+    <h2>Book Your Service</h2>
+    <form id="bookingForm" novalidate>
       <label for="name">Full Name</label>
       <input type="text" id="name" name="name" required placeholder="Your full name" />
 
@@ -123,21 +32,26 @@
       <input type="tel" id="phone" name="phone" required placeholder="e.g. 07712345678" />
 
       <label for="location">Your Location (GPS)</label>
-      <input type="text" id="location" name="location" readonly required />
+      <input type="text" id="location" name="location" readonly required placeholder="Locating..." />
 
-      <label for="extraAddress">Extra Details</label>
-      <input type="text" id="extraAddress" name="extraAddress" placeholder="House name or number" />
+      <label for="extraAddress">Extra Details (House name/number)</label>
+      <input type="text" id="extraAddress" name="extraAddress" placeholder="Add house name or number" />
 
       <label for="service">Select Service</label>
       <select id="service" name="service" required>
-        <option value="">-- Choose --</option>
-        <option value="Jumpstart">Jumpstart</option>
-        <option value="Battery Fitting">Battery Fitting</option>
-        <option value="Brake Replacement">Brake Replacement</option>
-        <option value="Tyre Replacement">Tyre Replacement</option>
-        <option value="Diagnosis">Vehicle Diagnosis</option>
-        <option value="Oil Change">Oil Change</option>
-        <option value="Suspension">Suspension Work</option>
+        <option value="">-- Choose Service --</option>
+        <option value="Jumpstart">Jumpstart (£50)</option>
+        <option value="Battery Fitting">Battery Fitting (£60)</option>
+        <option value="Brake Replacement">Brake Replacement (£70)</option>
+        <option value="Tyre Replacement">Tyre Replacement (£80)</option>
+        <option value="Vehicle Diagnosis">Vehicle Diagnosis (£65)</option>
+        <option value="Oil Change">Oil Change (£55)</option>
+        <option value="Suspension Work">Suspension Work (£90)</option>
+        <option value="Clutch Replacement">Clutch Replacement (£120)</option>
+        <option value="Timing Belt">Timing Belt Replacement (£150)</option>
+        <option value="Engine Repair">Engine Repair (£200)</option>
+        <option value="Transmission Repair">Transmission Repair (£180)</option>
+        <option value="AC Repair">AC Repair (£100)</option>
         <option value="Other">Other (Add notes)</option>
       </select>
 
@@ -147,19 +61,131 @@
       <label for="description">Job Description</label>
       <textarea id="description" name="description" placeholder="Anything extra? Tools needed?"></textarea>
 
-      <div style="text-align: right;">
+      <!-- Estimated Cost Confirmation -->
+      <div id="estimateConfirm" style="margin-top: 1.5rem; padding: 1rem; background: #fff3cd; border: 2px solid #ffb732; border-radius: 8px; font-weight: 900; font-size: 1.3rem; color: #d84315;">
+        Please select a service to see the estimated cost.
+      </div>
+
+      <label style="display: flex; align-items: center; margin-top: 1rem; font-weight: 700; cursor: pointer;">
+        <input type="checkbox" id="confirmEstimate" disabled style="margin-right: 0.6rem;" />
+        I confirm I am happy with the estimated cost and want to proceed.
+      </label>
+
+      <div style="text-align: right; margin-top: 1rem;">
         <button type="button" id="disclaimerBtn" title="Terms">ℹ️</button>
       </div>
 
-      <button type="submit">Confirm Booking</button>
+      <button type="submit" id="submitBtn" disabled style="margin-top: 1rem;">Confirm Booking</button>
     </form>
-
-    <div id="confirmation" style="display:none;"></div>
-
-    <div id="disclaimerPopup" class="disclaimer hidden">
-      📌 *Disclaimer: You must allow location access to use this service. If declined, we may not be able to assist you.*
-    </div>
   </main>
 
+  <script>
+    // Hamburger menu toggle
+    const menuBtn = document.getElementById('menuBtn');
+    const dropdownMenu = document.getElementById('dropdownMenu');
+    menuBtn.addEventListener('click', () => {
+      dropdownMenu.classList.toggle('open');
+    });
+    menuBtn.addEventListener('keypress', e => {
+      if(e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        dropdownMenu.classList.toggle('open');
+      }
+    });
+
+    // Auto-get GPS location on page load
+    const locationInput = document.getElementById('location');
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          // Simple location display (can be enhanced with reverse geocoding)
+          locationInput.value = `Lat: ${latitude.toFixed(4)}, Lon: ${longitude.toFixed(4)}`;
+        },
+        (error) => {
+          locationInput.value = "Location access denied. Please enter manually.";
+          locationInput.removeAttribute('readonly');
+        },
+        { enableHighAccuracy: true, timeout: 10000 }
+      );
+    } else {
+      locationInput.value = "Geolocation not supported";
+      locationInput.removeAttribute('readonly');
+    }
+
+    // Service estimated cost logic
+    const serviceSelect = document.getElementById('service');
+    const estimateConfirm = document.getElementById('estimateConfirm');
+    const confirmCheckbox = document.getElementById('confirmEstimate');
+    const submitBtn = document.getElementById('submitBtn');
+
+    const servicePrices = {
+      "Jumpstart": 50,
+      "Battery Fitting": 60,
+      "Brake Replacement": 70,
+      "Tyre Replacement": 80,
+      "Vehicle Diagnosis": 65,
+      "Oil Change": 55,
+      "Suspension Work": 90,
+      "Clutch Replacement": 120,
+      "Timing Belt": 150,
+      "Engine Repair": 200,
+      "Transmission Repair": 180,
+      "AC Repair": 100,
+      "Other": null,
+    };
+
+    serviceSelect.addEventListener('change', () => {
+      const selectedService = serviceSelect.value;
+      const price = servicePrices[selectedService];
+      if (price) {
+        estimateConfirm.textContent = `Estimated cost for ${selectedService}: £${price}. Please confirm you accept this price below.`;
+        confirmCheckbox.disabled = false;
+        confirmCheckbox.checked = false;
+        submitBtn.disabled = true;
+      } else if (selectedService === "Other") {
+        estimateConfirm.textContent = "Please provide details for custom pricing.";
+        confirmCheckbox.disabled = true;
+        confirmCheckbox.checked = false;
+        submitBtn.disabled = false;  // Allow submit for custom
+      } else {
+        estimateConfirm.textContent = "Please select a service to see the estimated cost.";
+        confirmCheckbox.disabled = true;
+        confirmCheckbox.checked = false;
+        submitBtn.disabled = true;
+      }
+    });
+
+    confirmCheckbox.addEventListener('change', () => {
+      submitBtn.disabled = !confirmCheckbox.checked;
+    });
+
+    // Optional: Handle form submission (just demo)
+    const bookingForm = document.getElementById('bookingForm');
+    bookingForm.addEventListener('submit', e => {
+      e.preventDefault();
+      alert('Booking submitted! Thank you.');
+      bookingForm.reset();
+      estimateConfirm.textContent = "Please select a service to see the estimated cost.";
+      confirmCheckbox.disabled = true;
+      confirmCheckbox.checked = false;
+      submitBtn.disabled = true;
+      locationInput.value = "Locating...";
+      // Re-trigger geolocation
+      if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const { latitude, longitude } = position.coords;
+            locationInput.value = `Lat: ${latitude.toFixed(4)}, Lon: ${longitude.toFixed(4)}`;
+          },
+          () => {
+            locationInput.value = "Location access denied. Please enter manually.";
+            locationInput.removeAttribute('readonly');
+          }
+        );
+      }
+    });
+
+  </script>
 </body>
 </html>
