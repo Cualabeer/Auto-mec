@@ -1,4 +1,3 @@
-// client/booking.js
 const form = document.getElementById("bookingForm");
 const locateBtn = document.getElementById("locateBtn");
 
@@ -17,7 +16,7 @@ locateBtn.addEventListener("click", () => {
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
   const formData = Object.fromEntries(new FormData(form).entries());
-  const res = await fetch("https://your-backend-url/api/bookings", {
+  const res = await fetch("https://auto-mec-production.up.railway.app/api/bookings", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(formData)
