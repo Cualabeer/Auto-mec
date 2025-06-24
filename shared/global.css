@@ -1,251 +1,323 @@
-/* ========================
-   Global Reset and Basics
-========================== */
+/* === Global Reset & Base === */
 *,
 *::before,
 *::after {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
 }
 
 body {
-  background-color: #ffb732; /* Mango yellow base */
-
-  /* Modern honeycomb pattern with subtle gradients */
-  background-image:
-    radial-gradient(circle at 15px 15px, rgba(255 255 255 / 0.12) 2px, transparent 3px),
-    radial-gradient(circle at 35px 35px, rgba(255 255 255 / 0.12) 2px, transparent 3px);
-  background-size: 50px 50px;
-
+  margin: 0;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #fff;
   color: #222;
-  min-height: 100vh;
-  padding: 0 1rem;
-  line-height: 1.5;
+  line-height: 1.4;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-tap-highlight-color: transparent;
 }
 
-/* ========================
-   Header Styles
-========================== */
+/* === Container === */
+.container {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 1rem 1.5rem 3rem;
+}
+
+/* === Header === */
 .header {
-  position: sticky;
-  top: 0;
-  background: linear-gradient(90deg, #ff8c00, #ffa500);
-  color: #222;
+  background: #ff6f00; /* Hi-vis orange */
+  color: #fff;
+  font-weight: 900;
+  font-size: 1.5rem;
   padding: 1rem 1.5rem;
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  font-weight: 900;
-  font-size: 1.4rem;
-  letter-spacing: 0.08em;
-  box-shadow: 0 4px 12px rgb(0 0 0 / 0.25);
+  align-items: center;
+  position: sticky;
+  top: 0;
   z-index: 1000;
   user-select: none;
 }
 
 .menu-button {
-  font-size: 2rem;
+  font-size: 1.6rem;
   cursor: pointer;
-  color: #222;
   user-select: none;
 }
 
 .dropdown {
   display: none;
-  flex-direction: column;
   position: absolute;
-  top: 60px;
+  top: 3.6rem;
   right: 1.5rem;
-  background: #ffb732;
+  background: #ffb732; /* mango yellow */
   border-radius: 6px;
-  box-shadow: 0 8px 20px rgb(0 0 0 / 0.3);
-  font-weight: 700;
+  box-shadow: 0 0 10px rgba(0,0,0,0.25);
+  padding: 0.5rem 0;
+  min-width: 140px;
+  z-index: 1100;
+}
+
+.dropdown.open {
+  display: block;
 }
 
 .dropdown a {
-  padding: 1rem 1.5rem;
+  display: block;
+  padding: 0.75rem 1rem;
   color: #222;
+  font-weight: 700;
   text-decoration: none;
-  border-bottom: 1px solid #e07b00;
-  transition: background-color 0.3s ease;
-}
-
-.dropdown a:last-child {
-  border-bottom: none;
+  transition: background 0.25s ease;
 }
 
 .dropdown a:hover,
 .dropdown a:focus {
-  background: #ff8c00;
+  background: #d84315; /* darker orange */
   color: #fff;
   outline: none;
 }
 
-/* ========================
-   Container and Layout
-========================== */
-.container {
-  max-width: 600px;
-  margin: 3rem auto 4rem;
-  background: #fff;
-  padding: 2.5rem 2rem;
-  border-radius: 10px;
-  box-shadow:
-    0 8px 20px rgb(0 0 0 / 0.15),
-    inset 0 0 20px rgb(255 140 0 / 0.15);
-  font-weight: 600;
-}
-
-/* ========================
-   Headings
-========================== */
+/* === Headings === */
 h2 {
-  margin-bottom: 1.5rem;
   font-weight: 900;
-  color: #ff8c00;
-  font-size: 2rem;
+  color: #d84315;
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+  font-size: 1.8rem;
   text-align: center;
-  letter-spacing: 0.08em;
 }
 
-/* ========================
-   Form Styles
-========================== */
-form {
+/* === Quick Book Buttons === */
+.quick-book {
   display: flex;
   flex-direction: column;
-  gap: 1.2rem;
+  gap: 1rem;
+  margin-bottom: 2rem;
 }
 
-input[type="text"],
-input[type="tel"],
-input[type="datetime-local"],
-select,
-textarea {
+.quick-book button {
+  background: #ffb732; /* mango yellow */
+  color: #000;
+  font-weight: 800;
+  font-size: 1.2rem;
+  padding: 18px 0;
+  border: none;
+  border-radius: 10px;
   width: 100%;
-  padding: 22px 18px;
-  font-size: 1.3rem;
+  cursor: pointer;
+  box-shadow: 0 3px 5px rgba(255,183,50,0.6);
+  transition: background 0.3s ease;
+  user-select: none;
+}
+
+.quick-book button:hover,
+.quick-book button:focus {
+  background: #d07a00;
+  color: #fff;
+  outline: none;
+}
+
+/* === Forms === */
+form {
+  background: #fff;
+  padding: 1.5rem 1.5rem 2rem;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.1);
+}
+
+form label {
+  display: block;
+  margin-top: 1rem;
   font-weight: 700;
+  font-size: 1rem;
+  color: #d84315;
+}
+
+form input[type="text"],
+form input[type="tel"],
+form input[type="datetime-local"],
+form select,
+form textarea {
+  width: 100%;
+  padding: 14px 12px;
+  font-size: 1rem;
+  margin-top: 0.3rem;
+  border: 2px solid #ccc;
   border-radius: 8px;
-  border: 2px solid #ff8c00;
-  background: #fff8e1;
-  color: #222;
-  box-shadow:
-    3px 3px 8px rgb(255 140 0 / 0.3),
-    inset 1px 1px 3px rgb(255 180 40 / 0.5);
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
-  font-family: inherit;
+  transition: border-color 0.3s ease;
   resize: vertical;
 }
 
-input[type="text"]:focus,
-input[type="tel"]:focus,
-input[type="datetime-local"]:focus,
-select:focus,
-textarea:focus {
-  border-color: #ffa500;
+form input[readonly] {
+  background-color: #f5f5f5;
+  color: #777;
+}
+
+form input:focus,
+form select:focus,
+form textarea:focus {
+  border-color: #ff6f00;
   outline: none;
-  background: #fff9e3;
-  box-shadow:
-    0 0 8px 3px #ffa500cc,
-    inset 1px 1px 4px rgb(255 180 40 / 0.8);
+  background-color: #fff8e1;
 }
 
-/* Buttons */
-button,
-button[type="submit"],
-button[type="button"] {
-  width: 100%;
-  padding: 22px;
-  background: linear-gradient(90deg, #ff8c00, #ffa500);
-  color: #222;
-  font-weight: 900;
-  font-size: 1.5rem;
+form textarea {
+  min-height: 80px;
+}
+
+form button[type="submit"],
+form button.full-button {
+  margin-top: 1.5rem;
+  background: #ffb732;
   border: none;
+  font-weight: 800;
+  font-size: 1.25rem;
+  padding: 1rem 0;
   border-radius: 10px;
+  width: 100%;
   cursor: pointer;
-  letter-spacing: 0.07em;
+  box-shadow: 0 3px 5px rgba(255,183,50,0.7);
   user-select: none;
-  box-shadow:
-    0 6px 14px rgb(255 140 0 / 0.6),
-    inset 0 -4px 5px rgb(255 165 0 / 0.9);
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: background 0.3s ease;
 }
 
-button:hover,
-button:focus {
-  background: linear-gradient(90deg, #ffa500, #ffb732);
+form button[type="submit"]:hover,
+form button.full-button:hover {
+  background: #d07a00;
   color: #fff;
   outline: none;
-  box-shadow:
-    0 8px 20px rgb(255 165 0 / 0.85),
-    inset 0 -5px 8px rgb(255 195 0 / 1);
 }
 
-/* Price display */
-#priceDisplay {
-  font-weight: 900;
-  font-size: 1.3rem;
-  color: #b35000;
-  margin-top: -0.3rem;
-  margin-bottom: 0.8rem;
-  text-align: center;
+.cancel-button {
+  background: #eee;
+  color: #444;
+  font-weight: 700;
+  margin-top: 0.75rem;
+  box-shadow: none;
 }
 
-/* Confirmation message */
+.cancel-button:hover,
+.cancel-button:focus {
+  background: #ccc;
+  outline: none;
+}
+
+/* === Confirmation message === */
 #confirmation {
   margin-top: 1.5rem;
-  padding: 1.2rem;
-  border-radius: 10px;
-  background-color: #d0f0c0; /* light green */
-  color: #1a5e00;
-  font-weight: 900;
-  text-align: center;
-  box-shadow: 0 0 8px #1a5e00aa;
-}
-
-/* what3words display */
-#w3-display {
+  background: #d4edda;
+  border: 1px solid #c3e6cb;
+  color: #155724;
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
   font-weight: 700;
-  color: #ff8c00;
-  margin: 0.7rem 0 1.2rem;
   text-align: center;
+}
+
+/* === Disclaimer Popup === */
+.disclaimer {
+  background: #fff3cd;
+  border: 1px solid #ffeeba;
+  color: #856404;
+  padding: 1rem 1.5rem;
+  margin-top: 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+}
+
+/* === Highlight Animation for Dropdown Sync === */
+.highlight {
+  border: 2px solid #ff6f00 !important;
+  background-color: #fff8e1 !important;
+  transition: background-color 1.5s ease;
+}
+
+/* === Modal Styles === */
+.modal {
+  display: none; 
+  position: fixed;
+  z-index: 9999;
+  left: 0; top: 0;
+  width: 100%; height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.6);
+  justify-content: center;
+  align-items: center;
+}
+
+.modal.open {
+  display: flex;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 12px;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 0 20px rgba(0,0,0,0.3);
+  position: relative;
+}
+
+.modal-content h3 {
+  margin-top: 0;
+  color: #d84315;
+}
+
+.modal-content label {
+  display: block;
+  margin-top: 1rem;
+  font-weight: 700;
+}
+
+.modal-content input, 
+.modal-content textarea {
+  width: 100%;
+  padding: 0.75rem;
+  margin-top: 0.3rem;
+  border-radius: 6px;
+  border: 2px solid #ccc;
+  font-size: 1rem;
+}
+
+.modal-content button {
+  margin-top: 1.5rem;
+  width: 100%;
+  padding: 1rem;
+  background: #ffb732;
+  border: none;
+  font-weight: 700;
   font-size: 1.1rem;
+  border-radius: 8px;
+  cursor: pointer;
 }
 
-/* Textarea styles */
-textarea {
-  min-height: 120px;
-  font-family: inherit;
+.modal-content .cancel-button {
+  background: #eee;
+  color: #555;
+  margin-top: 0.5rem;
 }
 
-/* ========================
-   Responsive & Accessibility
-========================== */
-@media (min-width: 600px) {
-  .container {
-    padding: 3.5rem 3rem;
+/* === Responsive: Mobile buttons & text === */
+@media (max-width: 480px) {
+  body {
+    font-size: 16px;
   }
 
-  button,
-  input[type="text"],
-  input[type="tel"],
-  input[type="datetime-local"],
-  select,
-  textarea {
-    font-size: 1.2rem;
+  form label, 
+  .quick-book button,
+  form input, 
+  form select, 
+  form textarea,
+  form button[type="submit"],
+  .modal-content button {
+    font-size: 1.15rem;
   }
-}
 
-/* ========================
-   Utility Classes
-========================== */
-.visually-hidden {
-  position: absolute !important;
-  height: 1px; width: 1px;
-  overflow: hidden;
-  clip: rect(1px, 1px, 1px, 1px);
-  white-space: nowrap;
+  .quick-book button,
+  form button[type="submit"],
+  .modal-content button {
+    padding: 20px 0;
+  }
 }
