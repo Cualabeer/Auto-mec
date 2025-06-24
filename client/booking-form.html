@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -19,21 +19,36 @@
 
   <main class="container">
     <h2>Service Booking</h2>
+
     <form id="bookingForm">
+      <!-- Button to auto-locate the user -->
       <button type="button" id="locateBtn">📍 Use My GPS</button>
-      <input type="text" name="address" placeholder="Your Road or Location" required />
+
+      <!-- what3words location (auto-filled in JS) -->
+      <p id="w3-display" style="display:none;"></p>
+
+      <!-- Form fields -->
+      <input type="text" name="address" placeholder="Your Road or Area" required />
       <input type="text" name="houseNumber" placeholder="House Number or Name" required />
       <input type="tel" name="phone" placeholder="Phone Number" required />
+
       <select name="service" required>
         <option value="">Select Service</option>
         <option value="Breakdown">Breakdown</option>
         <option value="Battery Jump">Battery Jump</option>
         <option value="Oil Leak">Oil Leak</option>
+        <option value="Flat Tyre">Flat Tyre</option>
+        <option value="Diagnostics">Diagnostics</option>
       </select>
+
       <input type="datetime-local" name="time" required />
+
       <textarea name="notes" placeholder="More details (optional)"></textarea>
+
       <button type="submit">Confirm Booking</button>
     </form>
+
+    <!-- Confirmation message -->
     <p id="confirmation" style="display:none;"></p>
   </main>
 
