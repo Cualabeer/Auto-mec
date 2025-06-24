@@ -1,45 +1,237 @@
-/* shared/global.css - Shared styling */
-body {
-  font-family: Arial, sans-serif;
+/* ========================
+   Global Reset and Basics
+========================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  background: #fff8e1;
+}
+
+body {
+  /* Mango yellow base */
+  background-color: #ffb732;
+
+  /* Honeycomb technical pattern */
+  background-image:
+    radial-gradient(circle at 15px 15px, rgba(255, 255, 255, 0.15) 2px, transparent 3px),
+    radial-gradient(circle at 35px 35px, rgba(255, 255, 255, 0.15) 2px, transparent 3px);
+  background-size: 50px 50px;
+
+  /* Text and base styling */
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  line-height: 1.5;
+  color: #222;
+  min-height: 100vh;
+  padding: 0 1rem;
+}
+
+/* ========================
+   Header Styles
+========================== */
+.header {
+  position: sticky;
+  top: 0;
+  background: #ff8c00; /* Orange hi-vis background */
+  color: #333;
+  padding: 1rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: bold;
+  box-shadow: 0 2px 5px rgb(0 0 0 / 0.15);
+  z-index: 1000;
+}
+
+.menu-button {
+  font-size: 1.8rem;
+  cursor: pointer;
+  user-select: none;
   color: #222;
 }
-.header {
-  background: orange;
-  color: white;
-  padding: 1em;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+
+.header h1 {
+  font-weight: 900;
+  font-size: 1.4rem;
+  color: #222;
 }
-.menu-button {
-  font-size: 1.5em;
-  cursor: pointer;
-}
+
 .dropdown {
   display: none;
+  flex-direction: column;
+  position: absolute;
+  top: 60px;
+  right: 1.5rem;
+  background: #ffb732; /* Mango yellow */
+  border-radius: 4px;
+  box-shadow: 0 4px 10px rgb(0 0 0 / 0.2);
 }
-.dropdown.open {
-  display: block;
-}
-.container {
-  padding: 1em;
-}
-input, select, textarea, button {
-  display: block;
-  width: 100%;
-  margin: 10px 0;
-  padding: 10px;
-  font-size: 1em;
-}
-.btn {
-  background: darkorange;
-  color: white;
-  text-align: center;
-  padding: 12px;
+
+.dropdown a {
+  padding: 0.75rem 1.2rem;
+  color: #222;
+  font-weight: 700;
   text-decoration: none;
-  display: inline-block;
-  margin-top: 10px;
+  border-bottom: 1px solid #e07b00;
+}
+
+.dropdown a:last-child {
+  border-bottom: none;
+}
+
+.dropdown a:hover,
+.dropdown a:focus {
+  background: #ffa500; /* Stronger orange */
+  color: #fff;
+  outline: none;
+}
+
+/* ========================
+   Container and Layout
+========================== */
+.container {
+  max-width: 600px;
+  margin: 2rem auto 3rem;
+  background: #fff;
+  padding: 2rem 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 3px 12px rgb(0 0 0 / 0.1);
+  font-weight: 600;
+}
+
+/* ========================
+   Headings
+========================== */
+h2 {
+  margin-bottom: 1rem;
+  font-weight: 900;
+  color: #ff8c00;
+  font-size: 1.8rem;
+  text-align: center;
+  letter-spacing: 0.05em;
+}
+
+/* ========================
+   Form Styles
+========================== */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+input[type="text"],
+input[type="tel"],
+input[type="datetime-local"],
+select,
+textarea {
+  width: 100%;
+  padding: 20px; /* 20px padding for easy tap */
+  font-size: 1.2rem; /* Readable font size for accessibility */
+  border: 2px solid #ff8c00; /* Mango yellow border */
+  border-radius: 6px;
+  font-weight: 700;
+  background: #fff8e1; /* Light mango yellow background */
+  color: #222;
+  transition: border-color 0.3s ease;
+  resize: vertical;
+  box-shadow: none;
+  font-family: inherit;
+}
+
+input[type="text"]:focus,
+input[type="tel"]:focus,
+input[type="datetime-local"]:focus,
+select:focus,
+textarea:focus {
+  border-color: #ffb732; /* Brighter orange on focus */
+  outline: none;
+  background: #fff9e3;
+}
+
+/* Full width buttons with hi-vis style */
+button,
+button[type="submit"],
+button[type="button"] {
+  background: #ff8c00;
+  color: #222;
+  font-weight: 900;
+  font-size: 1.4rem;
+  padding: 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.25s ease;
+  width: 100%;
+  letter-spacing: 0.05em;
+  user-select: none;
+}
+
+button:hover,
+button:focus {
+  background: #ffa500;
+  color: #fff;
+  outline: none;
+}
+
+/* Price display */
+#priceDisplay {
+  color: #b35000;
+  font-weight: 800;
+  font-size: 1.2rem;
+  margin-top: -0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Confirmation message */
+#confirmation {
+  margin-top: 1rem;
+  padding: 1rem;
+  border-radius: 6px;
+  background-color: #d0f0c0; /* light green */
+  color: #1a5e00;
+  font-weight: 900;
+  text-align: center;
+}
+
+/* what3words display */
+#w3-display {
+  font-weight: 700;
+  color: #ff8c00;
+  margin: 0.5rem 0 1rem 0;
+}
+
+/* Textarea styles */
+textarea {
+  min-height: 100px;
+}
+
+/* ========================
+   Responsive & Accessibility
+========================== */
+@media (min-width: 600px) {
+  .container {
+    padding: 3rem 3rem;
+  }
+  button,
+  input[type="text"],
+  input[type="tel"],
+  input[type="datetime-local"],
+  select,
+  textarea {
+    font-size: 1.1rem;
+  }
+}
+
+/* ========================
+   Utility Classes
+========================== */
+.visually-hidden {
+  position: absolute !important;
+  height: 1px; width: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  white-space: nowrap;
 }
