@@ -1,30 +1,34 @@
-<!-- client/admin.html -->
+<!-- client/index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Admin - Auto-Mec</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Auto-Mec - Mobile Mechanic</title>
   <link rel="stylesheet" href="../shared/global.css" />
 </head>
 <body>
   <header class="header">
-    <h1>Admin Dashboard</h1>
+    <div class="menu-button" onclick="toggleMenu()">☰</div>
+    <h1>Auto-Mec</h1>
+    <nav id="menu" class="dropdown">
+      <a href="index.html">Home</a>
+      <a href="booking-form.html">Book Service</a>
+      <a href="admin.html">Admin</a>
+    </nav>
   </header>
+
   <main class="container">
-    <h2>Bookings Received</h2>
-    <ul id="bookings"></ul>
+    <h2>Welcome to Auto-Mec</h2>
+    <p>Fast, reliable mobile mechanic service — wherever you are.</p>
+    <ol>
+      <li>Book your service</li>
+      <li>Share your location</li>
+      <li>We come to you</li>
+    </ol>
+    <a class="btn" href="booking-form.html">📍 Book Now</a>
   </main>
-  <script>
-    fetch("https://your-backend-url/api/bookings")
-      .then(res => res.json())
-      .then(data => {
-        const list = document.getElementById("bookings");
-        data.forEach(b => {
-          const item = document.createElement("li");
-          item.innerHTML = `<strong>${b.service}</strong> @ ${b.time} <br> ${b.address}, ${b.houseNumber} <br> ${b.phone}`;
-          list.appendChild(item);
-        });
-      });
-  </script>
+
+  <script src="script.js"></script>
 </body>
 </html>
