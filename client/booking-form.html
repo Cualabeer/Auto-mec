@@ -4,9 +4,42 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Auto-mec Booking Form</title>
-  <link rel="stylesheet" href="../shared/global.css" />
+  <link rel="stylesheet" href="shared/global.css" />
   <style>
-    /* Inline tweaks if needed */
+    /* Emergency buttons container */
+    #emergencyButtons {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .emergency-btn {
+      flex: 1 1 30%;
+      background: #ff4d00;
+      color: white;
+      font-weight: 900;
+      font-size: 1.2rem;
+      padding: 1.5rem 0;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      text-align: center;
+      transition: background 0.3s ease;
+      box-shadow: 0 4px 8px rgba(255, 77, 0, 0.5);
+      user-select: none;
+    }
+    .emergency-btn:hover, .emergency-btn:focus {
+      background: #cc3b00;
+      outline: none;
+    }
+
+    /* Adjust form max-width */
+    main.container {
+      max-width: 450px;
+      margin: 0 auto;
+      padding: 1rem;
+    }
   </style>
 </head>
 <body>
@@ -23,6 +56,13 @@
   </header>
 
   <main class="container" role="main">
+    <h2>Emergency Quick Book</h2>
+    <div id="emergencyButtons" role="region" aria-label="Emergency booking services">
+      <button class="emergency-btn" data-service="Jumpstart">Jumpstart</button>
+      <button class="emergency-btn" data-service="Battery Fitting">Battery Fitting</button>
+      <button class="emergency-btn" data-service="Tyre Replacement">Tyre Replacement</button>
+    </div>
+
     <h2>Book Your Service</h2>
     <form id="bookingForm" novalidate>
       <label for="name">Full Name</label>
@@ -62,17 +102,17 @@
       <textarea id="description" name="description" placeholder="Anything extra? Tools needed?"></textarea>
 
       <!-- Estimated Cost Confirmation -->
-      <div id="estimateConfirm" style="margin-top: 1.5rem; padding: 1rem; background: #fff3cd; border: 2px solid #ffb732; border-radius: 8px; font-weight: 900; font-size: 1.3rem; color: #d84315;">
+      <div id="estimateConfirm" style="margin-top: 1.5rem; padding: 1rem; background: #fff3cd; border: 2px solid #ffb732; border-radius: 8px; font-weight: 900; font-size: 1.3rem; color: #d84315; text-align:center;">
         Please select a service to see the estimated cost.
       </div>
 
-      <label style="display: flex; align-items: center; margin-top: 1rem; font-weight: 700; cursor: pointer;">
+      <label style="display: flex; align-items: center; margin-top: 1rem; font-weight: 700; cursor: pointer; color:#fff4e5;">
         <input type="checkbox" id="confirmEstimate" disabled style="margin-right: 0.6rem;" />
         I confirm I am happy with the estimated cost and want to proceed.
       </label>
 
       <div style="text-align: right; margin-top: 1rem;">
-        <button type="button" id="disclaimerBtn" title="Terms">ℹ️</button>
+        <button type="button" id="disclaimerBtn" title="Terms" style="background:transparent; border:none; font-size:1.8rem; color:#ffd180; cursor:pointer;">ℹ️</button>
       </div>
 
       <button type="submit" id="submitBtn" disabled style="margin-top: 1rem;">Confirm Booking</button>
@@ -93,25 +133,44 @@
       }
     });
 
-    // Auto-get GPS location on page load
     const locationInput = document.getElementById('location');
-    if ("geolocation" in navigator) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const { latitude, longitude } = position.coords;
-          // Simple location display (can be enhanced with reverse geocoding)
-          locationInput.value = `Lat: ${latitude.toFixed(4)}, Lon: ${longitude.toFixed(4)}`;
-        },
-        (error) => {
-          locationInput.value = "Location access denied. Please enter manually.";
-          locationInput.removeAttribute('readonly');
-        },
-        { enableHighAccuracy: true, timeout: 10000 }
-      );
-    } else {
-      locationInput.value = "Geolocation not supported";
-      locationInput.removeAttribute('readonly');
+
+    // Reverse geocode with Nominatim to get full address
+    async function getFullAddress(lat, lon) {
+      try {
+        const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`);
+        const data = await response.json();
+        if (data && data.display_name) {
+          return data.display_name;
+        }
+      } catch {
+        // ignore errors, fallback below
+      }
+      return `Lat: ${lat.toFixed(5)}, Lon: ${lon.toFixed(5)}`;
     }
+
+    // Get GPS location and fill full address
+    async function setLocation() {
+      if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition(
+          async (position) => {
+            const { latitude, longitude } = position.coords;
+            const fullAddress = await getFullAddress(latitude, longitude);
+            locationInput.value = fullAddress;
+          },
+          (error) => {
+            locationInput.value = "Location access denied. Please enter manually.";
+            locationInput.removeAttribute('readonly');
+          },
+          { enableHighAccuracy: true, timeout: 10000 }
+        );
+      } else {
+        locationInput.value = "Geolocation not supported";
+        locationInput.removeAttribute('readonly');
+      }
+    }
+
+    setLocation();
 
     // Service estimated cost logic
     const serviceSelect = document.getElementById('service');
@@ -160,8 +219,38 @@
       submitBtn.disabled = !confirmCheckbox.checked;
     });
 
-    // Optional: Handle form submission (just demo)
+    // Emergency buttons fill form & set service + datetime to now
+    const emergencyButtons = document.querySelectorAll('.emergency-btn');
+    const nameInput = document.getElementById('name');
+    const phoneInput = document.getElementById('phone');
+    const datetimeInput = document.getElementById('datetime');
     const bookingForm = document.getElementById('bookingForm');
+
+    emergencyButtons.forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const service = btn.getAttribute('data-service');
+        // Auto-select emergency service
+        serviceSelect.value = service;
+        serviceSelect.dispatchEvent(new Event('change'));
+
+        // Set datetime to current datetime local
+        const now = new Date();
+        const tzoffset = now.getTimezoneOffset() * 60000; //offset in milliseconds
+        const localISOTime = (new Date(now - tzoffset)).toISOString().slice(0,16);
+        datetimeInput.value = localISOTime;
+
+        // Autofill GPS location again in case user clicks after first load
+        await setLocation();
+
+        // Scroll to form smoothly
+        bookingForm.scrollIntoView({behavior: 'smooth'});
+
+        // Focus on name field for user to enter details
+        nameInput.focus();
+      });
+    });
+
+    // Form submit demo handler
     bookingForm.addEventListener('submit', e => {
       e.preventDefault();
       alert('Booking submitted! Thank you.');
@@ -170,20 +259,7 @@
       confirmCheckbox.disabled = true;
       confirmCheckbox.checked = false;
       submitBtn.disabled = true;
-      locationInput.value = "Locating...";
-      // Re-trigger geolocation
-      if ("geolocation" in navigator) {
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            const { latitude, longitude } = position.coords;
-            locationInput.value = `Lat: ${latitude.toFixed(4)}, Lon: ${longitude.toFixed(4)}`;
-          },
-          () => {
-            locationInput.value = "Location access denied. Please enter manually.";
-            locationInput.removeAttribute('readonly');
-          }
-        );
-      }
+      setLocation();
     });
 
   </script>
