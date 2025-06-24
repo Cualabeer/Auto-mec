@@ -3,26 +3,49 @@
 <head>
   <meta charset="UTF-8" />
   <title>Admin - Auto-Mec</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="../shared/global.css" />
 </head>
 <body>
   <header class="header">
+    <div class="menu-button" onclick="toggleMenu()">☰</div>
     <h1>Admin Dashboard</h1>
+    <nav id="menu" class="dropdown">
+      <a href="index.html">Home</a>
+      <a href="booking-form.html">Book Service</a>
+      <a href="admin.html">Admin</a>
+    </nav>
   </header>
+
   <main class="container">
     <h2>Bookings Received</h2>
     <ul id="bookings"></ul>
   </main>
+
   <script>
+    // Fetch bookings from backend and display in list
     fetch("https://auto-mec-production.up.railway.app/api/bookings")
       .then(res => res.json())
       .then(data => {
         const list = document.getElementById("bookings");
+        if(data.length === 0){
+          list.innerHTML = "<li>No bookings yet</li>";
+          return;
+        }
         data.forEach(b => {
           const item = document.createElement("li");
-          item.innerHTML = `<strong>${b.service}</strong> @ ${b.time} <br> ${b.address}, ${b.houseNumber} <br> ${b.phone}`;
+          item.innerHTML = `
+            <strong>Service:</strong> ${b.service} <br>
+            <strong>Time:</strong> ${new Date(b.time).toLocaleString()} <br>
+            <strong>Address:</strong> ${b.address}, ${b.houseNumber} <br>
+            <strong>Phone:</strong> ${b.phone} <br>
+            <strong>Notes:</strong> ${b.notes || 'None'}
+          `;
           list.appendChild(item);
         });
+      })
+      .catch(err => {
+        document.getElementById("bookings").innerHTML = "<li>Error loading bookings</li>";
       });
   </script>
 </body>
