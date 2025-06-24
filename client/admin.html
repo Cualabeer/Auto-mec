@@ -1,0 +1,30 @@
+<!-- client/admin.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin - Auto-Mec</title>
+  <link rel="stylesheet" href="../shared/global.css" />
+</head>
+<body>
+  <header class="header">
+    <h1>Admin Dashboard</h1>
+  </header>
+  <main class="container">
+    <h2>Bookings Received</h2>
+    <ul id="bookings"></ul>
+  </main>
+  <script>
+    fetch("https://your-backend-url/api/bookings")
+      .then(res => res.json())
+      .then(data => {
+        const list = document.getElementById("bookings");
+        data.forEach(b => {
+          const item = document.createElement("li");
+          item.innerHTML = `<strong>${b.service}</strong> @ ${b.time} <br> ${b.address}, ${b.houseNumber} <br> ${b.phone}`;
+          list.appendChild(item);
+        });
+      });
+  </script>
+</body>
+</html>
